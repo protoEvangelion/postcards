@@ -1,16 +1,29 @@
-import './App.css'
-import { withAuthenticator } from "@aws-amplify/ui-react";
-import "@aws-amplify/ui-react/styles.css";
-import TodoList from './components/TodoList';
+import { Hero } from './components/Hero.tsx'
+import { Feature } from '@/components/Feature.tsx'
+import { Integration } from '@/components/Integration.tsx'
+import { Pricing } from '@/components/Pricing.tsx'
+import { Topbar } from '@/components/Topbar.tsx'
+import { FAQ } from '@/components/FAQ.tsx'
+import { Footer } from '@/components/Footer.tsx'
+import { Theme, useTheme } from 'react-daisyui'
+
+import { ScriptureTimeline } from './components/ScriptureSelect/ScriptureTimeline.tsx'
 
 function App() {
-  return (
-    <>
-      <TodoList />
-    </>
-  )
+    const { theme } = useTheme()
+
+    return (
+        <Theme dataTheme={theme}>
+            <Topbar />
+            <Hero />
+            <ScriptureTimeline />
+            <Feature />
+            <Integration />
+            <Pricing />
+            <FAQ />
+            <Footer />
+        </Theme>
+    )
 }
 
-const WrappedWithAuth = withAuthenticator(App)
-
-export default WrappedWithAuth
+export default App
