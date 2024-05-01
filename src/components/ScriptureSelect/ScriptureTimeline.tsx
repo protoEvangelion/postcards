@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Select, Timeline } from 'react-daisyui'
 import { Schema } from 'amplify/data/resource'
+import { SelectionSet } from 'aws-amplify/api'
 
 const Option = Select.Option
 
@@ -18,9 +19,18 @@ const Card = ({ verse, reference }: { verse: string; reference: string }) => {
     )
 }
 
-type Category = Schema['Category']
+const categorySelectionSet = ['id', 'scriptures.*', 'text'] as const
 
-export function ScriptureTimeline({ categories }: { categories: Category[] }) {
+export type CategoryData = SelectionSet<
+    Schema['Category']['type'],
+    typeof categorySelectionSet
+>
+
+export function ScriptureTimeline({
+    categories,
+}: {
+    categories: CategoryData[]
+}) {
     const [value, setValue] = useState('default')
     const selectedVerses = categories.find((x) => x.text === value)?.scriptures
     const months = getNextTwelveMonths()
@@ -44,7 +54,7 @@ export function ScriptureTimeline({ categories }: { categories: Category[] }) {
 
             {selectedVerses && (
                 <Timeline vertical>
-                    {selectedVerses.map(({ reference, text }) => {
+                    {selectedVerses.map(({ reference, text }, i) => {
                         const isEven = i % 2 === 0
                         const month = `${months[i]} 1st`
 

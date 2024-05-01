@@ -1,5 +1,15 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend'
 
+const PostcardModel = a
+    .model({
+        scheduledDate: a.datetime().required(),
+        shipped: a.boolean().required(),
+        delivered: a.boolean().required(),
+        scriptureId: a.id().required(),
+        scripture: a.belongsTo('Scripture', 'scriptureId'),
+    })
+    .authorization((allow) => [allow.owner()])
+
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
 adding a new "isDone" field as a boolean. The authorization rule below
@@ -17,16 +27,7 @@ const schema = a.schema({
             state: a.string().required(),
         })
         .authorization((allow) => [allow.owner()]),
-    Postcard: a
-        .model({
-            scheduledDate: a.datetime().required(),
-            shipped: a.boolean().required(),
-            delivered: a.boolean().required(),
-            scriptureId: a.id().required(),
-            scripture: a.belongsTo('Scripture', 'scriptureId'),
-        })
-        .authorization((allow) => [allow.owner()]),
-
+    Postcard: PostcardModel,
     Scripture: a
         .model({
             reference: a.string().required(),

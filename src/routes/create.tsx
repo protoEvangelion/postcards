@@ -14,7 +14,6 @@ export const Route = createFileRoute('/create')({
 
 function CreatePage() {
     const { data: categories } = Route.useLoaderData()
-    console.log('categories', categories)
 
     return (
         <>
