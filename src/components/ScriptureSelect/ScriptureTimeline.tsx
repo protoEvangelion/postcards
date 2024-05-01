@@ -34,7 +34,9 @@ export function ScriptureTimeline() {
                 </Option>
 
                 {Object.keys(verses).map((category) => (
-                    <Option value={category}>{category}</Option>
+                    <Option key={category} value={category}>
+                        {category}
+                    </Option>
                 ))}
             </Select>
 
@@ -45,7 +47,7 @@ export function ScriptureTimeline() {
                         const month = `${months[i]} 1st`
 
                         return (
-                            <Timeline.Item connect="both">
+                            <Timeline.Item connect="both" key={reference}>
                                 <Timeline.Start
                                     className="flex justify-end pr-5"
                                     box={isEven}
