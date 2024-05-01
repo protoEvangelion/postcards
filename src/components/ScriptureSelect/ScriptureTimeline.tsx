@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Select, Timeline } from 'react-daisyui'
-import { verses } from './verses'
+import { Schema } from 'amplify/data/resource'
 
 const Option = Select.Option
 
@@ -18,9 +18,11 @@ const Card = ({ verse, reference }: { verse: string; reference: string }) => {
     )
 }
 
-export function ScriptureTimeline() {
+type Category = Schema['Category']
+
+export function ScriptureTimeline({ categories }: { categories: Category[] }) {
     const [value, setValue] = useState('default')
-    const selectedVerses = verses[value]
+    const selectedVerses = categories.find((x) => x.text === value)?.scriptures
     const months = getNextTwelveMonths()
 
     return (
@@ -33,16 +35,16 @@ export function ScriptureTimeline() {
                     Select Scripture Category
                 </Option>
 
-                {Object.keys(verses).map((category) => (
-                    <Option key={category} value={category}>
-                        {category}
+                {categories.map((category) => (
+                    <Option key={category.id} value={category.text}>
+                        {category.text}
                     </Option>
                 ))}
             </Select>
 
             {selectedVerses && (
                 <Timeline vertical>
-                    {selectedVerses.map(({ reference, verse }, i) => {
+                    {selectedVerses.map(({ reference, text }) => {
                         const isEven = i % 2 === 0
                         const month = `${months[i]} 1st`
 
@@ -56,7 +58,7 @@ export function ScriptureTimeline() {
                                         month
                                     ) : (
                                         <Card
-                                            verse={verse}
+                                            verse={text}
                                             reference={reference}
                                         />
                                     )}
@@ -68,7 +70,7 @@ export function ScriptureTimeline() {
                                 >
                                     {isEven ? (
                                         <Card
-                                            verse={verse}
+                                            verse={text}
                                             reference={reference}
                                         />
                                     ) : (

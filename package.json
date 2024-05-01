@@ -1,5 +1,5 @@
 {
-    "name": "saas-landingpage-react-ts",
+    "name": "postcards",
     "version": "1.0.0",
     "type": "module",
     "scripts": {
@@ -7,7 +7,7 @@
         "build": "tsc && vite build",
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
         "preview": "vite preview",
-        "amp": "ampx sandbox --profile amplify-admin",
+        "start": "ampx sandbox --profile amplify-admin",
         "login": "aws configure sso"
     },
     "dependencies": {
@@ -27,9 +27,9 @@
         "zod": "^3.23.4"
     },
     "devDependencies": {
-        "@aws-amplify/backend": "^0.15.1",
-        "@aws-amplify/backend-cli": "^0.16.0",
-        "@tanstack/router-devtools": "^1.31.2",
+        "@aws-amplify/backend": "^1.0.0",
+        "@aws-amplify/backend-cli": "^1.0.0",
+        "@tanstack/router-devtools": "^1.31.4",
         "@tanstack/router-vite-plugin": "^1.30.0",
         "@types/react": "^18.2.43",
         "@types/react-dom": "^18.2.17",

@@ -13,12 +13,9 @@ export const Route = createFileRoute('/seed')({
 
 function SeedPage() {
     const { data: categories } = Route.useLoaderData()
-
-    console.log('!categories', categories)
-
     return (
         <>
-            {!categories && (
+            {!categories.length && (
                 <Button onClick={handleSeed} className="my-10">
                     Seed it
                 </Button>

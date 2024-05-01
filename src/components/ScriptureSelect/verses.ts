@@ -3,56 +3,6 @@ type Verse = {
     verse: string
 }
 export const verses: Record<string, Verse[]> = {
-    'Grew up in church but walked away': [
-        {
-            reference: 'Luke 15:11-12',
-            verse: "And he said, 'There was a man who had two sons. And the younger of them said to his father, ‘Father, give me the share of property that is coming to me.’ And he divided his property between them.'",
-        },
-        {
-            reference: 'Luke 15:20',
-            verse: 'And he arose and came to his father. But while he was still a long way off, his father saw him and felt compassion, and ran and embraced him and kissed him.',
-        },
-        {
-            reference: 'Hebrews 3:12',
-            verse: 'Take care, brothers, lest there be in any of you an evil, unbelieving heart, leading you to fall away from the living God.',
-        },
-        {
-            reference: 'Revelation 2:4-5',
-            verse: 'But I have this against you, that you have abandoned the love you had at first. Remember therefore from where you have fallen; repent, and do the works you did at first.',
-        },
-        {
-            reference: '2 Peter 3:9',
-            verse: 'The Lord is not slow to fulfill his promise as some count slowness, but is patient toward you, not wishing that any should perish, but that all should reach repentance.',
-        },
-        {
-            reference: '1 John 1:9',
-            verse: 'If we confess our sins, he is faithful and just to forgive us our sins and to cleanse us from all unrighteousness.',
-        },
-        {
-            reference: 'Jeremiah 24:7',
-            verse: 'I will give them a heart to know that I am the LORD, and they shall be my people and I will be their God, for they shall return to me with their whole heart.',
-        },
-        {
-            reference: 'Hosea 6:1',
-            verse: 'Come, let us return to the LORD; for he has torn us, that he may heal us; he has struck us down, and he will bind us up.',
-        },
-        {
-            reference: 'Matthew 18:12-13',
-            verse: 'What do you think? If a man has a hundred sheep, and one of them has gone astray, does he not leave the ninety-nine on the mountains and go in search of the one that went astray?',
-        },
-        {
-            reference: 'Galatians 4:9',
-            verse: 'But now that you have come to know God, or rather to be known by God, how can you turn back again to the weak and worthless elementary principles of the world, whose slaves you want to be once more?',
-        },
-        {
-            reference: 'James 4:8',
-            verse: 'Draw near to God, and he will draw near to you. Cleanse your hands, you sinners, and purify your hearts, you double-minded.',
-        },
-        {
-            reference: 'Psalms 51:12',
-            verse: 'Restore to me the joy of your salvation, and uphold me with a willing spirit.',
-        },
-    ],
     'Atheist/Agnostic': [
         {
             reference: 'Romans 1:20',
@@ -253,7 +203,7 @@ export const verses: Record<string, Verse[]> = {
             verse: 'Though the fig tree should not blossom, nor fruit be on the vines, the produce of the olive fail and the fields yield no food, the flock be cut off from the fold and there be no herd in the stalls, yet I will rejoice in the LORD; I will take joy in the God of my salvation.',
         },
     ],
-    'Addiction - Lust of Flesh (Sex, Pornography)': [
+    Addiction: [
         {
             reference: '1 Corinthians 6:18',
             verse: 'Flee from sexual immorality. Every other sin a person commits is outside the body, but the sexually immoral person sins against his own body.',
@@ -301,106 +251,6 @@ export const verses: Record<string, Verse[]> = {
         {
             reference: 'Proverbs 6:25-26',
             verse: 'Do not desire her beauty in your heart, and do not let her capture you with her eyelashes; for the price of a prostitute is only a loaf of bread, but a married woman hunts down a precious life.',
-        },
-    ],
-    'Addiction - Drug, Alcohol, Gambling': [
-        {
-            reference: '1 Corinthians 6:10',
-            verse: 'Nor thieves, nor the greedy, nor drunkards, nor revilers, nor swindlers will inherit the kingdom of God.',
-        },
-        {
-            reference: 'Proverbs 20:1',
-            verse: 'Wine is a mocker, strong drink a brawler, and whoever is led astray by it is not wise.',
-        },
-        {
-            reference: 'Ephesians 5:18',
-            verse: 'And do not get drunk with wine, for that is debauchery, but be filled with the Spirit,',
-        },
-        {
-            reference: '1 Peter 4:3',
-            verse: 'For the time that is past suffices for doing what the Gentiles want to do, living in sensuality, passions, drunkenness, orgies, drinking parties, and lawless idolatry.',
-        },
-        {
-            reference: 'Proverbs 23:20-21',
-            verse: 'Be not among drunkards or among gluttonous eaters of meat, for the drunkard and the glutton will come to poverty, and slumber will clothe them with rags.',
-        },
-        {
-            reference: 'Galatians 5:21',
-            verse: 'Envy, drunkenness, orgies, and things like these. I warn you, as I warned you before, that those who do such things will not inherit the kingdom of God.',
-        },
-        {
-            reference: 'Isaiah 5:11',
-            verse: 'Woe to those who rise early in the morning, that they may run after strong drink, who tarry late into the evening as wine inflames them!',
-        },
-        {
-            reference: '1 Corinthians 10:13',
-            verse: 'No temptation has overtaken you that is not common to man. God is faithful, and he will not let you be tempted beyond your ability, but with the temptation he will also provide the way of escape, that you may be able to endure it.',
-        },
-        {
-            reference: 'Proverbs 28:7',
-            verse: 'The one who keeps the law is a son with understanding, but a companion of gluttons shames his father.',
-        },
-        {
-            reference: 'Proverbs 23:31-32',
-            verse: 'Do not look at wine when it is red, when it sparkles in the cup and goes down smoothly. In the end it bites like a serpent and stings like an adder.',
-        },
-        {
-            reference: 'Luke 21:34',
-            verse: 'But watch yourselves lest your hearts be weighed down with dissipation and drunkenness and the cares of this life, and that day come upon you suddenly like a trap.',
-        },
-        {
-            reference: 'Hosea 4:11',
-            verse: 'Whoredom, wine, and new wine, which take away the understanding.',
-        },
-    ],
-    Homosexual: [
-        {
-            reference: '1 Corinthians 6:9-11',
-            verse: 'Or do you not know that the unrighteous will not inherit the kingdom of God? Do not be deceived: neither the sexually immoral, nor idolaters, nor adulterers, nor men who practice homosexuality, nor thieves, nor the greedy, nor drunkards, nor revilers, nor swindlers will inherit the kingdom of God. And such were some of you. But you were washed, you were sanctified, you were justified in the name of the Lord Jesus Christ and by the Spirit of our God.',
-        },
-        {
-            reference: 'Romans 1:26-27',
-            verse: 'For this reason God gave them up to dishonorable passions. For their women exchanged natural relations for those that are contrary to nature; and the men likewise gave up natural relations with women and were consumed with passion for one another, men committing shameless acts with men and receiving in themselves the due penalty for their error.',
-        },
-        {
-            reference: '1 Timothy 1:10',
-            verse: 'The sexually immoral, men who practice homosexuality, enslavers, liars, perjurers, and whatever else is contrary to sound doctrine,',
-        },
-        {
-            reference: 'Leviticus 18:22',
-            verse: 'You shall not lie with a male as with a woman; it is an abomination.',
-        },
-        {
-            reference: 'Leviticus 20:13',
-            verse: 'If a man lies with a male as with a woman, both of them have committed an abomination; they shall surely be put to death; their blood is upon them.',
-        },
-        {
-            reference: 'Jude 1:7',
-            verse: 'Just as Sodom and Gomorrah and the surrounding cities, which likewise indulged in sexual immorality and pursued unnatural desire, serve as an example by undergoing a punishment of eternal fire.',
-        },
-        {
-            reference: 'Genesis 19:5',
-            verse: 'And they called to Lot, ‘Where are the men who came to you tonight? Bring them out to us, that we may know them.’',
-        },
-        {
-            reference: 'Matthew 19:4-6',
-            verse: 'He answered, ‘Have you not read that he who created them from the beginning made them male and female, and said, ‘Therefore a man shall leave his father and his mother and hold fast to his wife, and the two shall become one flesh’? So they are no longer two but one flesh. What therefore God has joined together, let not man separate.’',
-        },
-        {
-            reference: '1 Corinthians 7:2',
-            verse: 'But because of the temptation to sexual immorality, each man should have his own wife and each woman her own husband.',
-        },
-        {
-            reference: 'Mark 10:6-9',
-            verse: 'But from the beginning of creation, ‘God made them male and female.’ ‘Therefore a man shall leave his father and mother and hold fast to his wife, and the two shall become one flesh.’ So they are no longer two but one flesh. What therefore God has joined together, let not man separate.',
-        },
-        {
-            reference: 'Ephesians 5:31',
-            verse: '‘Therefore a man shall leave his father and mother and hold fast to his wife, and the two shall become one flesh.’',
-        },
-        {
-            reference: 'Deuteronomy 22:5',
-            verse: "A woman shall not wear a man's garment, nor shall a man put on a woman's cloak, for whoever does these things is an abomination to the LORD your God.",
         },
     ],
     Bitterness: [
