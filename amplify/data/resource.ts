@@ -1,24 +1,32 @@
-import { type ClientSchema, a, defineData } from '@aws-amplify/backend'
+import {
+    type ClientSchema,
+    a,
+    defineData,
+    defineFunction,
+    secret,
+} from '@aws-amplify/backend'
 
-const PostcardModel = a
-    .model({
-        scheduledDate: a.datetime().required(),
-        shipped: a.boolean().required(),
-        delivered: a.boolean().required(),
-        scriptureId: a.id().required(),
-        scripture: a.belongsTo('Scripture', 'scriptureId'),
-    })
-    .authorization((allow) => [allow.owner()])
+const apiKeysHandler = defineFunction({
+    entry: '../function/api-keys/handler.ts',
+    name: 'api-keys',
+    environment: {
+        GOOGLE_MAPS_API_KEY: secret('googleMapsApiKey'),
+        STRIPE_API_KEY: secret('stripeApiKey'),
+    },
+})
 
-/*== STEP 1 ===============================================================
-The section below creates a Todo database table with a "content" field. Try
-adding a new "isDone" field as a boolean. The authorization rule below
-specifies that any user authenticated via an API key can "create", "read",
-"update", and "delete" any "Todo" records.
-=========================================================================*/
+const stripePaymentHandler = defineFunction({
+    entry: '../function/stripe-payment-handler/handler.ts',
+    name: 'stripe-payment',
+    environment: {
+        STRIPE_CLIENT_SECRET: secret('stripeClientSecret'),
+    },
+})
+
 const schema = a.schema({
-    Recipient: a
+    Address: a
         .model({
+            isRecipientAddress: a.boolean().required(),
             name: a.string().required(),
             address: a.string().required(),
             address2: a.string(),
@@ -27,7 +35,15 @@ const schema = a.schema({
             state: a.string().required(),
         })
         .authorization((allow) => [allow.owner()]),
-    Postcard: PostcardModel,
+    Postcard: a
+        .model({
+            scheduledDate: a.datetime().required(),
+            shipped: a.boolean().required(),
+            delivered: a.boolean().required(),
+            scriptureId: a.id().required(),
+            scripture: a.belongsTo('Scripture', 'scriptureId'),
+        })
+        .authorization((allow) => [allow.owner()]),
     Scripture: a
         .model({
             reference: a.string().required(),
@@ -49,6 +65,26 @@ const schema = a.schema({
             date: a.datetime().required(),
         })
         .authorization((allow) => [allow.owner()]),
+
+    // FUNCTIONS
+    ApiKeyResponse: a.customType({
+        googleMapsApiKey: a.string(),
+        stripeApiKey: a.string(),
+    }),
+    handleApiKeys: a
+        .query()
+        .returns(a.ref('ApiKeyResponse'))
+        .authorization((allow) => [allow.authenticated()])
+        .handler(a.handler.function(apiKeysHandler)),
+
+    StripeResponse: a.customType({
+        stripeSecret: a.string(),
+    }),
+    handleStripePayment: a
+        .query()
+        .returns(a.ref('StripeResponse'))
+        .authorization((allow) => [allow.authenticated()])
+        .handler(a.handler.function(stripePaymentHandler)),
 })
 
 export type Schema = ClientSchema<typeof schema>
@@ -59,32 +95,3 @@ export const data = defineData({
         defaultAuthorizationMode: 'userPool',
     },
 })
-
-/*== STEP 2 ===============================================================
-Go to your frontend source code. From your client-side code, generate a
-Data client to make CRUDL requests to your table. (THIS SNIPPET WILL ONLY
-WORK IN THE FRONTEND CODE FILE.)
-
-Using JavaScript or Next.js React Server Components, Middleware, Server 
-Actions or Pages Router? Review how to generate Data clients for those use
-cases: https://docs.amplify.aws/gen2/build-a-backend/data/connect-to-API/
-=========================================================================*/
-
-/*
-"use client"
-import { generateClient } from "aws-amplify/data";
-import type { Schema } from "@/amplify/data/resource";
-
-const client = generateClient<Schema>() // use this Data client for CRUDL requests
-*/
-
-/*== STEP 3 ===============================================================
-Fetch records from the database and use them in your frontend component.
-(THIS SNIPPET WILL ONLY WORK IN THE FRONTEND CODE FILE.)
-=========================================================================*/
-
-/* For example, in a React component, you can use this snippet in your
-  function's RETURN statement */
-// const { data: todos } = await client.models.Todo.list()
-
-// return <ul>{todos.map(todo => <li key={todo.id}>{todo.content}</li>)}</ul>

@@ -2,7 +2,7 @@ import { Button, Drawer, Menu, Navbar } from 'react-daisyui'
 import { Menu as MenuIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useAuthenticator } from '@aws-amplify/ui-react'
-import { Login } from './Auth/Login'
+import { Login } from '../Auth/Login'
 import { Link } from '@tanstack/react-router'
 
 export const Topbar = ({ className }: { className: string }) => {
@@ -10,10 +10,6 @@ export const Topbar = ({ className }: { className: string }) => {
     const [atTop, setAtTop] = useState(true)
 
     const { user, signOut } = useAuthenticator((context) => [context.user])
-
-    useEffect(() => {
-        console.log('!user', user)
-    }, [user])
 
     useEffect(() => {
         const onWindowScroll = () => {

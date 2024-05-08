@@ -1,8 +1,8 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import { Theme, useTheme } from 'react-daisyui'
-import { Topbar } from '@/components/Topbar.tsx'
-import { Footer } from '@/components/Footer.tsx'
+import { Topbar } from '@/components/Layout/Topbar'
+import { Footer } from '@/components/Layout/Footer'
 
 const RootComponent = () => {
     const { theme } = useTheme()

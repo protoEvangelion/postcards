@@ -1,5 +1,4 @@
 import { defineAuth } from '@aws-amplify/backend'
-import { userAdminRoleFunction } from '../function/user-admin-role/resource'
 
 /**
  * Define and configure your auth resource
@@ -11,7 +10,4 @@ export const auth = defineAuth({
             verificationEmailSubject: 'Welcome, please verify your email.',
         },
     },
-    access: (allow) => [
-        allow.resource(userAdminRoleFunction).to(['manageUsers']),
-    ],
 })
