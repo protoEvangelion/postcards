@@ -1,19 +1,30 @@
 import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react'
-import { motion } from 'framer-motion'
+import { Heading } from '../atoms/Typography/Heading'
+import AddressForm from '../Forms/AddressForm'
+import { SubHeading } from '../atoms/Typography/SubHeading'
+import { MultistepNavigationButtonsProps } from './multistep-navigation-buttons'
 
-export const SignupForm = () => {
+export const SignupForm = ({
+    googleMapsApiKey,
+    navigationButtonProps,
+}: {
+    googleMapsApiKey: string
+    navigationButtonProps: MultistepNavigationButtonsProps
+}) => {
     const { user } = useAuthenticator((context) => [context.user])
 
     return user ? (
-        <motion.div
-            initial={{ opacity: 0 }} // Start with the content invisible
-            animate={{ opacity: 1 }} // Animate to fully visible
-            transition={{ delay: 0.5 }} // Delay the animation by 1 second
-        >
-            <div className="text-3xl font-bold leading-9 text-default-foreground py-10">
-                Welcome, you are signed in 👋
-            </div>
-        </motion.div>
+        <>
+            <Heading>Welcome, you are signed in 👋</Heading>
+            <SubHeading>Please Add Your Address</SubHeading>
+
+            <AddressForm
+                name="user-address-form"
+                isRecipientForm={false}
+                googleMapsApiKey={googleMapsApiKey}
+                navigationButtonProps={navigationButtonProps}
+            />
+        </>
     ) : (
         <Authenticator className="max-w-xs" />
     )

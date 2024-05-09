@@ -1,21 +1,26 @@
-'use client'
-
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import MultistepSidebar from './multistep-sidebar'
-import MultistepNavigationButtons from './multistep-navigation-buttons'
-import { useAuthenticator } from '@aws-amplify/ui-react'
+import MultistepNavigationButtons, {
+    MultistepNavigationButtonsProps,
+} from './multistep-navigation-buttons'
 import { SignupForm } from './SignupForm'
 import { ScriptureSelect } from '../Forms/ScriptureSelect/ScriptureSelect'
-import { AddressAutocomplete } from '../Forms/AddressAutocomplete'
 import { useQuery } from '@tanstack/react-query'
 import { QueryKeys, client } from '@/client'
 import { CircularProgress } from '@nextui-org/progress'
 import { PaymentFormLoader } from '../Forms/PaymentFormLoader'
 import ReviewAndPaymentForm from './review-and-payment-form'
+import AddressForm from '../Forms/AddressForm'
+import { useSessionStorage } from 'usehooks-ts'
+import { SessionKeys } from '@/types'
+import { ReviewSubmitForm } from '../Forms/ReviewSubmitForm'
 
 export default function CreatePostcardFlow() {
-    const [[page], setPage] = React.useState([0, 0])
+    const [page, setPage] = useSessionStorage(
+        SessionKeys['createStepsState'],
+        0
+    )
 
     const { data } = useQuery({
         queryKey: [QueryKeys.ApiKeys],
@@ -24,32 +29,29 @@ export default function CreatePostcardFlow() {
 
     const secrets = data?.data
 
-    const { user } = useAuthenticator((context) => [context.user])
+    const paginate = React.useCallback(
+        (newDirection: number) => {
+            setPage((prev) => {
+                const nextPage = prev + newDirection
 
-    useEffect(() => {
-        if (user) {
-            setPage([1, 1])
-        }
-    }, [user])
+                if (nextPage < 0 || nextPage > 4) return prev
 
-    const paginate = React.useCallback((newDirection: number) => {
-        setPage((prev) => {
-            const nextPage = prev[0] + newDirection
+                return nextPage
+            })
+        },
+        [setPage]
+    )
 
-            if (nextPage < 0 || nextPage > 4) return prev
+    const onChangePage = React.useCallback(
+        (newPage: number) => {
+            setPage((prev) => {
+                if (newPage < 0 || newPage > 3) return prev
 
-            return [nextPage, newDirection]
-        })
-    }, [])
-
-    const onChangePage = React.useCallback((newPage: number) => {
-        setPage((prev) => {
-            if (newPage < 0 || newPage > 3) return prev
-            const currentPage = prev[0]
-
-            return [newPage, newPage > currentPage ? 1 : -1]
-        })
-    }, [])
+                return newPage
+            })
+        },
+        [setPage]
+    )
 
     const onBack = React.useCallback(() => {
         paginate(-1)
@@ -62,12 +64,38 @@ export default function CreatePostcardFlow() {
     if (!secrets?.stripeApiKey || !secrets?.googleMapsApiKey)
         return <CircularProgress />
 
+    const navigationButtonProps: MultistepNavigationButtonsProps = {
+        backButtonProps: { isDisabled: page === 0 },
+        className: 'hidden justify-start lg:flex col-span-12',
+        nextButtonProps: {
+            children: 'Continue',
+            type: 'submit',
+        },
+        onBack: onBack,
+        onNext: onNext,
+    }
+
+    // TODO do we need to render all components at once now that we are persiting state in session?
     const components = [
-        <SignupForm />,
-        <ScriptureSelect />,
-        <AddressAutocomplete googleMapsApiKey={secrets.googleMapsApiKey} />,
-        <PaymentFormLoader stripeApiKey={secrets.stripeApiKey} />,
-        <ReviewAndPaymentForm />,
+        <SignupForm
+            googleMapsApiKey={secrets.googleMapsApiKey}
+            navigationButtonProps={navigationButtonProps}
+        />,
+        <ScriptureSelect navigationButtonProps={navigationButtonProps} />,
+        <AddressForm
+            name="recipient-address-form"
+            isRecipientForm
+            googleMapsApiKey={secrets.googleMapsApiKey}
+            navigationButtonProps={navigationButtonProps}
+        />,
+        <PaymentFormLoader
+            stripeApiKey={secrets.stripeApiKey}
+            navigationButtonProps={navigationButtonProps}
+        />,
+        <ReviewSubmitForm
+            stripeApiKey={secrets.stripeApiKey}
+            navigationButtonProps={navigationButtonProps}
+        />,
     ]
 
     return (
@@ -83,22 +111,14 @@ export default function CreatePostcardFlow() {
                         key={i}
                         id={i + '-component-animation-wrapper'}
                         className={
-                            i === page ? 'animate-fade-up' : 'invisible h-0'
+                            i === page
+                                ? 'animate-fade-up animate-duration-500'
+                                : 'invisible h-0'
                         }
                     >
                         {component}
                     </div>
                 ))}
-
-                <MultistepNavigationButtons
-                    backButtonProps={{ isDisabled: page === 0 }}
-                    className="hidden justify-start lg:flex"
-                    nextButtonProps={{
-                        children: 'Continue',
-                    }}
-                    onBack={onBack}
-                    onNext={onNext}
-                />
             </div>
         </MultistepSidebar>
     )

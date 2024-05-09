@@ -1,209 +1,209 @@
 export type StateProps = {
-  title: string;
-  value: string;
-};
+    title: string
+    value: string
+}
 
 const states: StateProps[] = [
-  {
-    title: "Alabama",
-    value: "alabama",
-  },
-  {
-    title: "Alaska",
-    value: "alaska",
-  },
-  {
-    title: "Arizona",
-    value: "arizona",
-  },
-  {
-    title: "Arkansas",
-    value: "arkansas",
-  },
-  {
-    title: "California",
-    value: "california",
-  },
-  {
-    title: "Colorado",
-    value: "colorado",
-  },
-  {
-    title: "Connecticut",
-    value: "connecticut",
-  },
-  {
-    title: "Delaware",
-    value: "delaware",
-  },
-  {
-    title: "Florida",
-    value: "florida",
-  },
-  {
-    title: "Georgia",
-    value: "georgia",
-  },
-  {
-    title: "Hawaii",
-    value: "hawaii",
-  },
-  {
-    title: "Idaho",
-    value: "idaho",
-  },
-  {
-    title: "Illinois",
-    value: "illinois",
-  },
-  {
-    title: "Indiana",
-    value: "indiana",
-  },
-  {
-    title: "Iowa",
-    value: "iowa",
-  },
-  {
-    title: "Kansas",
-    value: "kansas",
-  },
-  {
-    title: "Kentucky",
-    value: "kentucky",
-  },
-  {
-    title: "Louisiana",
-    value: "louisiana",
-  },
-  {
-    title: "Maine",
-    value: "maine",
-  },
-  {
-    title: "Maryland",
-    value: "maryland",
-  },
-  {
-    title: "Massachusetts",
-    value: "massachusetts",
-  },
-  {
-    title: "Michigan",
-    value: "michigan",
-  },
-  {
-    title: "Minnesota",
-    value: "minnesota",
-  },
-  {
-    title: "Mississippi",
-    value: "mississippi",
-  },
-  {
-    title: "Missouri",
-    value: "missouri",
-  },
-  {
-    title: "Montana",
-    value: "montana",
-  },
-  {
-    title: "Nebraska",
-    value: "nebraska",
-  },
-  {
-    title: "Nevada",
-    value: "nevada",
-  },
-  {
-    title: "New Hampshire",
-    value: "new-hampshire",
-  },
-  {
-    title: "New Jersey",
-    value: "new-jersey",
-  },
-  {
-    title: "New Mexico",
-    value: "new-mexico",
-  },
-  {
-    title: "New York",
-    value: "new-york",
-  },
-  {
-    title: "North Carolina",
-    value: "north-carolina",
-  },
-  {
-    title: "North Dakota",
-    value: "north-dakota",
-  },
-  {
-    title: "Ohio",
-    value: "ohio",
-  },
-  {
-    title: "Oklahoma",
-    value: "oklahoma",
-  },
-  {
-    title: "Oregon",
-    value: "oregon",
-  },
-  {
-    title: "Pennsylvania",
-    value: "pennsylvania",
-  },
-  {
-    title: "Rhode Island",
-    value: "rhode-island",
-  },
-  {
-    title: "South Carolina",
-    value: "south-carolina",
-  },
-  {
-    title: "South Dakota",
-    value: "south-dakota",
-  },
-  {
-    title: "Tennessee",
-    value: "tennessee",
-  },
-  {
-    title: "Texas",
-    value: "texas",
-  },
-  {
-    title: "Utah",
-    value: "utah",
-  },
-  {
-    title: "Vermont",
-    value: "vermont",
-  },
-  {
-    title: "Virginia",
-    value: "virginia",
-  },
-  {
-    title: "Washington",
-    value: "washington",
-  },
-  {
-    title: "West Virginia",
-    value: "west-virginia",
-  },
-  {
-    title: "Wisconsin",
-    value: "wisconsin",
-  },
-  {
-    title: "Wyoming",
-    value: "wyoming",
-  },
-];
+    {
+        title: 'AL',
+        value: 'alabama',
+    },
+    {
+        title: 'AK',
+        value: 'alaska',
+    },
+    {
+        title: 'AZ',
+        value: 'arizona',
+    },
+    {
+        title: 'AR',
+        value: 'arkansas',
+    },
+    {
+        title: 'CA',
+        value: 'california',
+    },
+    {
+        title: 'CO',
+        value: 'colorado',
+    },
+    {
+        title: 'CT',
+        value: 'connecticut',
+    },
+    {
+        title: 'DE',
+        value: 'delaware',
+    },
+    {
+        title: 'FL',
+        value: 'florida',
+    },
+    {
+        title: 'GA',
+        value: 'georgia',
+    },
+    {
+        title: 'HI',
+        value: 'hawaii',
+    },
+    {
+        title: 'ID',
+        value: 'idaho',
+    },
+    {
+        title: 'IL',
+        value: 'illinois',
+    },
+    {
+        title: 'IN',
+        value: 'indiana',
+    },
+    {
+        title: 'IA',
+        value: 'iowa',
+    },
+    {
+        title: 'KS',
+        value: 'kansas',
+    },
+    {
+        title: 'KY',
+        value: 'kentucky',
+    },
+    {
+        title: 'LA',
+        value: 'louisiana',
+    },
+    {
+        title: 'ME',
+        value: 'maine',
+    },
+    {
+        title: 'MD',
+        value: 'maryland',
+    },
+    {
+        title: 'MA',
+        value: 'massachusetts',
+    },
+    {
+        title: 'MI',
+        value: 'michigan',
+    },
+    {
+        title: 'MN',
+        value: 'minnesota',
+    },
+    {
+        title: 'MS',
+        value: 'mississippi',
+    },
+    {
+        title: 'MO',
+        value: 'missouri',
+    },
+    {
+        title: 'MT',
+        value: 'montana',
+    },
+    {
+        title: 'NE',
+        value: 'nebraska',
+    },
+    {
+        title: 'NV',
+        value: 'nevada',
+    },
+    {
+        title: 'NH',
+        value: 'new-hampshire',
+    },
+    {
+        title: 'NJ',
+        value: 'new-jersey',
+    },
+    {
+        title: 'NM',
+        value: 'new-mexico',
+    },
+    {
+        title: 'NY',
+        value: 'new-york',
+    },
+    {
+        title: 'NC',
+        value: 'north-carolina',
+    },
+    {
+        title: 'ND',
+        value: 'north-dakota',
+    },
+    {
+        title: 'OH',
+        value: 'ohio',
+    },
+    {
+        title: 'OK',
+        value: 'oklahoma',
+    },
+    {
+        title: 'OR',
+        value: 'oregon',
+    },
+    {
+        title: 'PA',
+        value: 'pennsylvania',
+    },
+    {
+        title: 'RI',
+        value: 'rhode-island',
+    },
+    {
+        title: 'SC',
+        value: 'south-carolina',
+    },
+    {
+        title: 'SD',
+        value: 'south-dakota',
+    },
+    {
+        title: 'TN',
+        value: 'tennessee',
+    },
+    {
+        title: 'TX',
+        value: 'texas',
+    },
+    {
+        title: 'UT',
+        value: 'utah',
+    },
+    {
+        title: 'VT',
+        value: 'vermont',
+    },
+    {
+        title: 'VA',
+        value: 'virginia',
+    },
+    {
+        title: 'WA',
+        value: 'washington',
+    },
+    {
+        title: 'WV',
+        value: 'west-virginia',
+    },
+    {
+        title: 'WI',
+        value: 'wisconsin',
+    },
+    {
+        title: 'WY',
+        value: 'wyoming',
+    },
+]
 
-export default states;
+export default states

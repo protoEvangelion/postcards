@@ -1,17 +1,20 @@
-'use client'
-
-import { cn, Input, InputProps } from '@nextui-org/react'
+import { cn } from '@nextui-org/react'
 
 import { Heading } from '../atoms/Typography/Heading'
 import { SubHeading } from '../atoms/Typography/SubHeading'
 
-import React, { useState } from 'react'
-import { useForm, SubmitHandler, FieldError } from 'react-hook-form'
+import React from 'react'
+import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Button, Card } from 'react-daisyui'
-import { client } from '@/client'
-import { Schema } from 'amplify/data/resource'
+import { AddressAutocomplete } from './AddressAutocomplete'
+import { FormInput } from './FormInput'
+import { FormSelect } from './FormSelect'
+import useFormPersist from 'react-hook-form-persist'
+import states from '../CreatePostcardFlow/states'
+import MultistepNavigationButtons, {
+    MultistepNavigationButtonsProps,
+} from '../CreatePostcardFlow/multistep-navigation-buttons'
 
 // Define the validation schema using zod
 const recipientSchema = z.object({
@@ -21,118 +24,141 @@ const recipientSchema = z.object({
     address2: z.string().optional(),
     zip: z.string().min(1, { message: 'ZIP code is required' }),
     city: z.string().min(1, { message: 'City is required' }),
-    state: z.string().min(1, { message: 'State is required' }),
+    // State will always have something
+    state: z.string().optional(),
 })
 // Define the form inputs type based on the schema
-type RecipientFormData = z.infer<typeof recipientSchema>
+export type RecipientFormData = z.infer<typeof recipientSchema>
 
 export interface AddressFormProps
     extends React.HTMLAttributes<HTMLFormElement> {
     isRecipientForm: boolean
+    googleMapsApiKey: string
+    name: string
+    navigationButtonProps: MultistepNavigationButtonsProps
 }
 
-const AddressForm = React.forwardRef<HTMLFormElement, AddressFormProps>(
-    ({ className, isRecipientForm, ...props }, ref) => {
-        const {
-            register,
-            handleSubmit,
-            formState: { errors },
-        } = useForm<RecipientFormData>({
+const AddressForm = ({
+    className,
+    isRecipientForm,
+    googleMapsApiKey,
+    name,
+    navigationButtonProps,
+}: AddressFormProps) => {
+    const { handleSubmit, setValue, control, trigger, watch } =
+        useForm<RecipientFormData>({
             resolver: zodResolver(recipientSchema),
+            mode: 'onBlur',
         })
-        const [recipient, setRecipient] = useState<
-            Schema['Address']['type'] | null
-        >(null)
 
-        const inputProps: Pick<InputProps, 'labelPlacement' | 'classNames'> = {
-            labelPlacement: 'outside',
-            classNames: {
-                label: 'text-small font-medium text-default-700 group-data-[filled-within=true]:text-default-700',
-            },
-        }
+    useFormPersist(name, {
+        watch,
+        setValue,
+        storage: window.sessionStorage,
+    })
 
-        const onSubmit: SubmitHandler<RecipientFormData> = (formData) => {
-            console.log('!', formData)
-            // client.models.Recipient.create({ ...formData }).then((d) => {
-            //     console.log('recipient', d.data)
-            //     setRecipient(d.data)
-            // })
-        }
+    const inputProps = {
+        control,
+        labelPlacement: 'outside',
+        classNames: {
+            label: 'text-small font-medium text-default-700 group-data-[filled-within=true]:text-default-700',
+        },
+    } as const
 
-        return (
-            <>
-                <Heading>Choose Address</Heading>
+    const onSubmit: SubmitHandler<RecipientFormData> = (formData) => {
+        console.log('!', formData)
+        // client.models.Recipient.create({ ...formData }).then((d) => {
+        //     console.log('recipient', d.data)
+        //     setRecipient(d.data)
+        // })
+    }
 
-                {isRecipientForm ? (
+    return (
+        <>
+            {isRecipientForm && (
+                <>
+                    <Heading>Choose Address</Heading>
                     <SubHeading>
                         Add recipient address where the postcard will be
                         delivered.
                     </SubHeading>
-                ) : (
-                    <SubHeading>
-                        Add your address which will show up as the return
-                        address on the postcard.
-                    </SubHeading>
-                )}
+                </>
+            )}
 
-                <form
-                    ref={ref}
-                    className={cn(
-                        'grid grid-cols-12 flex-col gap-4 py-8',
-                        className
-                    )}
-                    onSubmit={handleSubmit(onSubmit)}
-                    {...props}
-                >
-                    <Input
-                        {...register('name')}
+            <AddressAutocomplete
+                googleMapsApiKey={googleMapsApiKey}
+                onAutofillForm={(address) => {
+                    console.log('autofill', address)
+                    Object.entries(address).forEach(([key, value]) => {
+                        setValue(key as keyof RecipientFormData, value)
+                    })
+
+                    // retrigger onBlur validation
+                    trigger()
+                }}
+            />
+
+            <form
+                className={cn(
+                    'grid grid-cols-12 flex-col gap-4 py-8',
+                    className
+                )}
+                onSubmit={handleSubmit(onSubmit)}
+            >
+                {isRecipientForm && (
+                    <FormInput
                         {...inputProps}
-                        className="col-span-12 md:col-span-12"
+                        name="name"
                         label="Name"
+                        className="col-span-12 md:col-span-12"
                         placeholder="First & Last Name"
                     />
+                )}
 
-                    <Input
-                        {...register('address')}
-                        {...inputProps}
-                        className="col-span-12 md:col-span-6"
-                        label="Address"
-                        placeholder="Enter Street Address"
-                    />
+                <FormInput
+                    {...inputProps}
+                    name="address"
+                    label="Address"
+                    className="col-span-12 md:col-span-6"
+                    placeholder="Enter Street Address"
+                />
 
-                    <Input
-                        {...register('address2')}
-                        {...inputProps}
-                        className="col-span-12 md:col-span-6"
-                        label="Address 2"
-                        placeholder="Apt, suite, unit, building, floor, etc."
-                    />
+                <FormInput
+                    {...inputProps}
+                    name="address2"
+                    label="Address 2"
+                    className="col-span-12 md:col-span-6"
+                    placeholder="Apt, suite, unit, building, floor, etc."
+                />
 
-                    <Input
-                        {...register('city')}
-                        {...inputProps}
-                        className="col-span-12 md:col-span-4"
-                        label="City"
-                    />
+                <FormInput
+                    {...inputProps}
+                    name="city"
+                    label="City"
+                    className="col-span-12 md:col-span-4"
+                />
 
-                    <Input
-                        {...register('state')}
-                        {...inputProps}
-                        className="col-span-12 md:col-span-4"
-                        label="State"
-                    />
+                <FormSelect
+                    {...inputProps}
+                    name="state"
+                    label="State"
+                    items={states}
+                    defaultSelectedKeys={'texas'}
+                    className="col-span-12 md:col-span-4"
+                />
 
-                    <Input
-                        {...register('zip')}
-                        {...inputProps}
-                        className="col-span-12 md:col-span-4"
-                        label="Zip Code"
-                    />
-                </form>
-            </>
-        )
-    }
-)
+                <FormInput
+                    {...inputProps}
+                    name="zip"
+                    label="Zip Code"
+                    className="col-span-12 md:col-span-4"
+                />
+
+                <MultistepNavigationButtons {...navigationButtonProps} />
+            </form>
+        </>
+    )
+}
 
 AddressForm.displayName = 'AddressForm'
 

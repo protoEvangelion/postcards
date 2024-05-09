@@ -1,5 +1,3 @@
-'use client'
-
 import type { ButtonProps, LinkProps } from '@nextui-org/react'
 
 import { Button } from '@nextui-org/react'

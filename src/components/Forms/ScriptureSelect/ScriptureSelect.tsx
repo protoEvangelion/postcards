@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react'
-import { Select, Timeline } from 'react-daisyui'
+import { Timeline } from 'react-daisyui'
 import { Schema } from 'amplify/data/resource'
 import { SelectionSet } from 'aws-amplify/api'
 import { useQuery } from '@tanstack/react-query'
@@ -7,17 +6,33 @@ import { client } from '@/client'
 import { Heading } from '@/components/atoms/Typography/Heading'
 import { SubHeading } from '@/components/atoms/Typography/SubHeading'
 import { Tooltip } from '@nextui-org/react'
-
-const Option = Select.Option
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import useFormPersist from 'react-hook-form-persist'
+import { z } from 'zod'
+import { FormSelect } from '../FormSelect'
+import MultistepNavigationButtons, {
+    MultistepNavigationButtonsProps,
+} from '@/components/CreatePostcardFlow/multistep-navigation-buttons'
 
 const categorySelectionSet = ['id', 'scriptures.*', 'text'] as const
+
+const schema = z.object({
+    category: z.string().optional(),
+})
+
+type ScriptureFormSchema = z.infer<typeof schema>
 
 export type CategoryData = SelectionSet<
     Schema['Category']['type'],
     typeof categorySelectionSet
 >
 
-export function ScriptureSelect() {
+export function ScriptureSelect({
+    navigationButtonProps,
+}: {
+    navigationButtonProps: MultistepNavigationButtonsProps
+}) {
     const { data: { data: categories } = {} } = useQuery({
         queryKey: ['categoryList'],
         queryFn: () =>
@@ -26,43 +41,55 @@ export function ScriptureSelect() {
             }),
     })
 
-    const [value, setValue] = useState('default')
+    const { setValue, control, watch, getValues } =
+        useForm<ScriptureFormSchema>({
+            resolver: zodResolver(schema),
+            mode: 'onBlur',
+        })
+
+    useFormPersist('scripture-select-form', {
+        watch,
+        setValue,
+        storage: window.sessionStorage,
+    })
+
     if (!categories) return null
 
-    const selectedVerses = categories.find((x) => x.text === value)?.scriptures
+    const selectedVerses = categories.find(
+        (x) => x.text === getValues().category
+    )?.scriptures
     const months = getNextTwelveMonths()
 
     return (
-        <div className="flex flex-col w-full component-preview py-8 justify-center gap-10">
+        <div className="flex flex-col w-full component-preview py-8 justify-center gap-8">
             <Heading>Select a Category</Heading>
             <SubHeading>
                 A category will include 12 Scriptures hand selected by our
                 Biblical Counseling ministry.
             </SubHeading>
 
-            <Select
-                value={value}
-                onChange={(event) => setValue(event.target.value)}
-            >
-                <Option value={'default'} disabled>
-                    Select Scripture Category
-                </Option>
-
-                {categories.map((category) => (
-                    <Option key={category.id} value={category.text}>
-                        {category.text}
-                    </Option>
-                ))}
-            </Select>
+            <FormSelect
+                control={control}
+                name="category"
+                label="Select Scripture Category"
+                items={categories.map((category) => ({
+                    title: category.text,
+                    value: category.text,
+                }))}
+            />
 
             {selectedVerses && (
-                <div className="carousel carousel-center space-x-4 rounded-box bg-slate-50">
+                <div className="carousel carousel-center space-x-4 rounded-box bg-slate-50 animate-fade-up">
                     <Timeline className="pt-4 pb-10">
                         {selectedVerses.map(({ reference, text }, i) => {
                             const month = `${months[i]} 1st`
 
                             return (
-                                <Timeline.Item connect="both" key={reference}>
+                                <Timeline.Item
+                                    connect="both"
+                                    key={reference}
+                                    className="animate-fade-left"
+                                >
                                     <Timeline.Start className="flex justify-end pr-5">
                                         {month}
                                     </Timeline.Start>
@@ -84,6 +111,8 @@ export function ScriptureSelect() {
                     </Timeline>
                 </div>
             )}
+
+            <MultistepNavigationButtons {...navigationButtonProps} />
         </div>
     )
 }

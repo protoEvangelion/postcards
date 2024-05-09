@@ -8,12 +8,13 @@ import { Icon } from '@iconify/react'
 import { cn } from './cn'
 import { ButtonWithBorderGradient } from './button-with-border-gradient'
 
-type MultistepNavigationButtonsProps = React.HTMLAttributes<HTMLDivElement> & {
-    onBack?: () => void
-    onNext?: () => void
-    backButtonProps?: ButtonProps
-    nextButtonProps?: ButtonWithBorderGradientProps
-}
+export type MultistepNavigationButtonsProps =
+    React.HTMLAttributes<HTMLDivElement> & {
+        onBack: () => void
+        onNext: () => void
+        backButtonProps: ButtonProps
+        nextButtonProps: ButtonWithBorderGradientProps
+    }
 
 const MultistepNavigationButtons = React.forwardRef<
     HTMLDivElement,
