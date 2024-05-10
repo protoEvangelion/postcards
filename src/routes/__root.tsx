@@ -1,21 +1,19 @@
+import { Footer } from '@/components/templates/Layout/Footer'
+import { Topbar } from '@/components/templates/Layout/Topbar'
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import { Theme, useTheme } from 'react-daisyui'
-import { Topbar } from '@/components/Layout/Topbar'
-import { Footer } from '@/components/Layout/Footer'
 
 const RootComponent = () => {
     const { theme } = useTheme()
 
     return (
-        <Theme dataTheme={theme} className="flex flex-col min-h-screen">
-            <Topbar className="grow-0 shrink-0" />
+        <Theme dataTheme={theme}>
+            <Topbar />
 
-            <div className="container grow">
-                <Outlet />
-            </div>
+            <Outlet />
 
-            <Footer className="grow-0 shrink-0" />
+            <Footer />
 
             <TanStackRouterDevtools />
         </Theme>

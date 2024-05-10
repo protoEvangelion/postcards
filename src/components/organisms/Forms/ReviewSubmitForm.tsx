@@ -1,7 +1,8 @@
+import { Heading } from '@/components/atoms/Typography/Heading'
 import MultistepNavigationButtons, {
     MultistepNavigationButtonsProps,
-} from '../CreatePostcardFlow/multistep-navigation-buttons'
-import { Heading } from '../atoms/Typography/Heading'
+} from '../CreatePostcardFlow/MultistepNavigationButtons'
+import { SubHeading } from '@/components/atoms/Typography/SubHeading'
 
 export function ReviewSubmitForm({
     stripeApiKey,
@@ -11,17 +12,16 @@ export function ReviewSubmitForm({
     navigationButtonProps: MultistepNavigationButtonsProps
 }) {
     return (
-        <>
+        <div className="flex flex-col w-full component-preview py-8 justify-center gap-8">
             <Heading>Review & Submit</Heading>
 
-            <div className="grid gap-4 md:grid-cols-2">
-                <div className="aspect-w-6 aspect-h-4 bg-white rounded-lg shadow-lg">
-                    Front
-                </div>
-                <div className="aspect-w-6 aspect-h-4 bg-white rounded-lg shadow-lg">
-                    Back
-                </div>
-            </div>
+            <SubHeading>Card Month 1 Front (Scripture)</SubHeading>
+
+            <div className="aspect-video bg-white rounded-lg shadow-lg"></div>
+
+            <SubHeading>Card Month 1 Back (Address Details)</SubHeading>
+
+            <div className="aspect-video bg-white rounded-lg shadow-lg"></div>
 
             <div className="stats shadow">
                 <div className="stat">
@@ -39,6 +39,6 @@ export function ReviewSubmitForm({
                     content: 'Schedule & Pay',
                 }}
             />
-        </>
+        </div>
     )
 }

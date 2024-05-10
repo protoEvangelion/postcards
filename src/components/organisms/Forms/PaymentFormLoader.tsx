@@ -3,7 +3,7 @@ import { Elements } from '@stripe/react-stripe-js'
 
 import PaymentForm from './PaymentForm'
 import { useMemo } from 'react'
-import { MultistepNavigationButtonsProps } from '../CreatePostcardFlow/multistep-navigation-buttons'
+import { MultistepNavigationButtonsProps } from '../CreatePostcardFlow/MultistepNavigationButtons'
 
 export function PaymentFormLoader({
     stripeApiKey,

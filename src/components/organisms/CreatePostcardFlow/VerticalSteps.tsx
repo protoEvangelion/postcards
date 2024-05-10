@@ -4,8 +4,7 @@ import type { ButtonProps } from '@nextui-org/react'
 import React from 'react'
 import { useControlledState } from '@react-stately/utils'
 import { m, LazyMotion, domAnimation } from 'framer-motion'
-
-import { cn } from './cn'
+import { cn } from '@/utils/cn'
 
 export type VerticalStepProps = {
     className?: string
@@ -292,7 +291,7 @@ const VerticalSteps = React.forwardRef<HTMLButtonElement, VerticalStepsProps>(
                                                 'pointer-events-none absolute left-3 top-[calc(64px_*_var(--idx)_+_1)] flex h-1/2 -translate-y-1/3 items-center px-4'
                                             )}
                                             style={{
-                                                // @ts-ignore
+                                                // @ts-expect-error you know
                                                 '--idx': stepIdx,
                                             }}
                                         >

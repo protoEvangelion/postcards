@@ -1,20 +1,19 @@
 import { cn } from '@nextui-org/react'
 
-import { Heading } from '../atoms/Typography/Heading'
-import { SubHeading } from '../atoms/Typography/SubHeading'
-
 import React from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { AddressAutocomplete } from './AddressAutocomplete'
-import { FormInput } from './FormInput'
-import { FormSelect } from './FormSelect'
 import useFormPersist from 'react-hook-form-persist'
 import states from '../CreatePostcardFlow/states'
 import MultistepNavigationButtons, {
     MultistepNavigationButtonsProps,
-} from '../CreatePostcardFlow/multistep-navigation-buttons'
+} from '../CreatePostcardFlow/MultistepNavigationButtons'
+import { Heading } from '@/components/atoms/Typography/Heading'
+import { SubHeading } from '@/components/atoms/Typography/SubHeading'
+import { FormInput } from '@/components/molecules/FormInput'
+import { FormSelect } from '@/components/molecules/FormSelect'
 
 // Define the validation schema using zod
 const recipientSchema = z.object({

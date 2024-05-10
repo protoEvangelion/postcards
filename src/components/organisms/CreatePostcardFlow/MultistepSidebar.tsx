@@ -2,12 +2,12 @@ import React from 'react'
 import { Button } from '@nextui-org/react'
 import { Icon } from '@iconify/react'
 
-import { cn } from './cn'
-import SupportCard from './support-card'
-import VerticalSteps from './vertical-steps'
+import SupportCard from './SupportCard'
+import VerticalSteps from './VerticalSteps'
 
-import RowSteps from './row-steps'
-import MultistepNavigationButtons from './multistep-navigation-buttons'
+import RowSteps from './RowSteps'
+import MultistepNavigationButtons from './MultistepNavigationButtons'
+import { cn } from '@/utils/cn'
 
 export type MultiStepSidebarProps = React.HTMLAttributes<HTMLDivElement> & {
     currentPage: number

@@ -1,8 +1,8 @@
-import { FAQ } from '@/components/Landing/FAQ'
-import { Feature } from '@/components/Landing/Feature'
-import { Hero } from '@/components/Landing/Hero'
-import { Integration } from '@/components/Landing/Integration'
-import { Pricing } from '@/components/Landing/Pricing'
+import { FAQ } from '@/components/organisms/Landing/FAQ'
+import { Feature } from '@/components/organisms/Landing/Feature'
+import { Hero } from '@/components/organisms/Landing/Hero'
+import { Integration } from '@/components/organisms/Landing/Integration'
+import { Pricing } from '@/components/organisms/Landing/Pricing'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/')({

@@ -10,10 +10,10 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import useFormPersist from 'react-hook-form-persist'
 import { z } from 'zod'
-import { FormSelect } from '../FormSelect'
+import { FormSelect } from '@/components/molecules/FormSelect'
 import MultistepNavigationButtons, {
     MultistepNavigationButtonsProps,
-} from '@/components/CreatePostcardFlow/multistep-navigation-buttons'
+} from '../../CreatePostcardFlow/MultistepNavigationButtons'
 
 const categorySelectionSet = ['id', 'scriptures.*', 'text'] as const
 

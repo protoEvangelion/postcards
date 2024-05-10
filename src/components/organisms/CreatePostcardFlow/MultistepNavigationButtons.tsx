@@ -1,12 +1,14 @@
 import type { ButtonProps } from '@nextui-org/react'
-import type { ButtonWithBorderGradientProps } from './button-with-border-gradient'
 
 import * as React from 'react'
 import { Button } from '@nextui-org/react'
 import { Icon } from '@iconify/react'
 
-import { cn } from './cn'
-import { ButtonWithBorderGradient } from './button-with-border-gradient'
+import { cn } from '@/utils/cn'
+import {
+    ButtonWithBorderGradient,
+    ButtonWithBorderGradientProps,
+} from '@/components/atoms/ButtonWithBorderGradient'
 
 export type MultistepNavigationButtonsProps =
     React.HTMLAttributes<HTMLDivElement> & {

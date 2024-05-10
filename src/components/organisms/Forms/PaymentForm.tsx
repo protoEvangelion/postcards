@@ -1,14 +1,14 @@
-import { FormEvent, useState } from 'react'
+import { useState } from 'react'
 import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
-import { Heading } from '../atoms/Typography/Heading'
-import { SubHeading } from '../atoms/Typography/SubHeading'
 import { useAuthenticator } from '@aws-amplify/ui-react'
 import { useSessionStorage } from 'usehooks-ts'
 import { SessionKeys } from '@/types'
 import MultistepNavigationButtons, {
     MultistepNavigationButtonsProps,
-} from '../CreatePostcardFlow/multistep-navigation-buttons'
+} from '../CreatePostcardFlow/MultistepNavigationButtons'
 import { StripeError } from '@stripe/stripe-js'
+import { Heading } from '@/components/atoms/Typography/Heading'
+import { SubHeading } from '@/components/atoms/Typography/SubHeading'
 
 const paymentElementOptions = {
     layout: 'tabs',

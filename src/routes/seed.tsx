@@ -1,5 +1,5 @@
 import { client } from '@/client'
-import { verses } from '@/components/Forms/ScriptureSelect/verses'
+import { verses } from '@/components/organisms/Forms/ScriptureSelect/verses'
 import { createFileRoute } from '@tanstack/react-router'
 import { Accordion, Button } from 'react-daisyui'
 

@@ -1,8 +1,8 @@
 import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react'
-import { Heading } from '../atoms/Typography/Heading'
-import AddressForm from '../Forms/AddressForm'
-import { SubHeading } from '../atoms/Typography/SubHeading'
-import { MultistepNavigationButtonsProps } from './multistep-navigation-buttons'
+import AddressForm from './AddressForm'
+import { MultistepNavigationButtonsProps } from '../CreatePostcardFlow/MultistepNavigationButtons'
+import { Heading } from '@/components/atoms/Typography/Heading'
+import { SubHeading } from '@/components/atoms/Typography/SubHeading'
 
 export const SignupForm = ({
     googleMapsApiKey,

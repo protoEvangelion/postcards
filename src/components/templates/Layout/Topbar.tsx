@@ -2,10 +2,10 @@ import { Button, Drawer, Menu, Navbar } from 'react-daisyui'
 import { Menu as MenuIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useAuthenticator } from '@aws-amplify/ui-react'
-import { Login } from '../Auth/Login'
 import { Link } from '@tanstack/react-router'
+import { Login } from '@/components/organisms/Auth/Login'
 
-export const Topbar = ({ className }: { className: string }) => {
+export const Topbar = () => {
     const [drawerOpened, setDrawerOpened] = useState(false)
     const [atTop, setAtTop] = useState(true)
 
@@ -22,7 +22,7 @@ export const Topbar = ({ className }: { className: string }) => {
     return (
         <div
             id="navbar-wrapper"
-            className={`${className} sticky top-0 z-10 border-b bg-base-100 lg:bg-opacity-95 lg:backdrop-blur-sm ${
+            className={`sticky top-0 z-10 border-b bg-base-100 lg:bg-opacity-95 lg:backdrop-blur-sm ${
                 atTop ? 'border-transparent' : 'border-base-content/10'
             }`}
         >
