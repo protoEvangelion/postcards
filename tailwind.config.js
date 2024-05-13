@@ -62,5 +62,10 @@ export default {
             },
         ],
     },
-    plugins: [require('daisyui'), nextui(), require('tailwindcss-animated')],
+    plugins: [
+        require('@tailwindcss/typography'),
+        require('daisyui'),
+        nextui(),
+        require('tailwindcss-animated'),
+    ],
 }

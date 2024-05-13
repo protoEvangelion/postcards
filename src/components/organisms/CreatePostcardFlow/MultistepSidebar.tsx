@@ -51,13 +51,10 @@ const MultiStepSidebar = React.forwardRef<
         return (
             <div
                 ref={ref}
-                className={cn(
-                    'flex h-[calc(100vh_-_40px)] w-full gap-x-2',
-                    className
-                )}
+                className={cn('flex  w-full gap-x-2', className)}
                 {...props}
             >
-                <div className="flex h-full w-[344px] flex-shrink-0 flex-col items-start gap-y-8 rounded-large bg-gradient-to-b from-default-100 via-danger-100 to-secondary-100 px-8 py-6 shadow-small lg:flex">
+                <div className="hidden lg:flex h-full w-[344px] flex-shrink-0 flex-col items-start gap-y-8 rounded-large bg-gradient-to-b from-default-100 via-danger-100 to-secondary-100 px-8 py-6 shadow-small sticky top-0">
                     <Button
                         className="bg-default-50 text-small font-medium text-default-500 shadow-lg"
                         isDisabled={currentPage === 0}
@@ -82,13 +79,13 @@ const MultiStepSidebar = React.forwardRef<
                                 title: 'Select Scripture',
                             },
                             {
-                                title: 'Add Address',
+                                title: 'Your Address',
                             },
                             {
-                                title: 'Payment',
+                                title: 'Recipient Address',
                             },
                             {
-                                title: 'Review & Submit',
+                                title: 'Pay & Schedule',
                             },
                         ]}
                         onStepChange={onChangePage}
@@ -110,20 +107,20 @@ const MultiStepSidebar = React.forwardRef<
                                         title: 'Scripture',
                                     },
                                     {
-                                        title: 'Address',
+                                        title: 'From',
                                     },
                                     {
-                                        title: 'Payment',
+                                        title: 'To',
                                     },
                                     {
-                                        title: 'Review',
+                                        title: 'Pay',
                                     },
                                 ]}
                                 onStepChange={onChangePage}
                             />
                         </div>
                     </div>
-                    <div className="h-full w-full p-4 sm:max-w-md md:max-w-lg">
+                    <div className="w-full p-4 sm:max-w-md md:max-w-lg">
                         {children}
                         <MultistepNavigationButtons
                             backButtonProps={{ isDisabled: currentPage === 0 }}

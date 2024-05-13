@@ -206,4 +206,8 @@ const states: StateProps[] = [
     },
 ]
 
+export function getStateAbbrev(state: string) {
+    return states.find((x) => x.value === state)?.title ?? state.toUpperCase()
+}
+
 export default states

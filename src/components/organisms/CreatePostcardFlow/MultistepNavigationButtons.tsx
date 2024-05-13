@@ -57,7 +57,7 @@ const MultistepNavigationButtons = React.forwardRef<
                 onPress={onNext}
                 {...nextButtonProps}
             >
-                {nextButtonProps?.children}
+                {nextButtonProps?.content || 'Continue'}
             </ButtonWithBorderGradient>
         </div>
     )

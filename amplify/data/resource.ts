@@ -15,9 +15,17 @@ const apiKeysHandler = defineFunction({
     },
 })
 
-const stripePaymentHandler = defineFunction({
-    entry: '../function/stripe-payment-handler/handler.ts',
-    name: 'stripe-payment',
+const stripeCreateIntentHandler = defineFunction({
+    entry: '../function/stripe/create-intent.ts',
+    name: 'create-intent',
+    environment: {
+        STRIPE_CLIENT_SECRET: secret('stripeClientSecret'),
+    },
+})
+
+const stripeSummarizePaymentHandler = defineFunction({
+    entry: '../function/stripe/summarize-payment.ts',
+    name: 'summarize-payment',
     environment: {
         STRIPE_CLIENT_SECRET: secret('stripeClientSecret'),
     },
@@ -77,14 +85,24 @@ const schema = a.schema({
         .authorization((allow) => [allow.authenticated()])
         .handler(a.handler.function(apiKeysHandler)),
 
-    StripeResponse: a.customType({
+    StripeCreateIntentResponse: a.customType({
         stripeSecret: a.string(),
     }),
-    handleStripePayment: a
+    stripeCreateIntent: a
         .query()
-        .returns(a.ref('StripeResponse'))
+        .returns(a.ref('StripeCreateIntentResponse'))
         .authorization((allow) => [allow.authenticated()])
-        .handler(a.handler.function(stripePaymentHandler)),
+        .handler(a.handler.function(stripeCreateIntentHandler)),
+
+    StripeSummarizePaymentResponse: a.customType({
+        details: a.string(),
+    }),
+    stripeSummarizePayment: a
+        .query()
+        .arguments({ confTokenId: a.string() })
+        .returns(a.ref('StripeSummarizePaymentResponse'))
+        .authorization((allow) => [allow.authenticated()])
+        .handler(a.handler.function(stripeSummarizePaymentHandler)),
 })
 
 export type Schema = ClientSchema<typeof schema>

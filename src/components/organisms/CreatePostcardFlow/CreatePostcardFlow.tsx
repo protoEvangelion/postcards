@@ -8,7 +8,6 @@ import { CircularProgress } from '@nextui-org/progress'
 import { useSessionStorage } from 'usehooks-ts'
 import { SessionKeys } from '@/types'
 import AddressForm from '../Forms/AddressForm'
-import { PaymentFormLoader } from '../Forms/PaymentFormLoader'
 import { ReviewSubmitForm } from '../Forms/ReviewSubmitForm'
 import { ScriptureSelect } from '../Forms/ScriptureSelect/ScriptureSelect'
 import { SignupForm } from '../Forms/SignupForm'
@@ -74,19 +73,18 @@ export default function CreatePostcardFlow() {
 
     // TODO do we need to render all components at once now that we are persiting state in session?
     const components = [
-        <SignupForm
-            googleMapsApiKey={secrets.googleMapsApiKey}
-            navigationButtonProps={navigationButtonProps}
-        />,
+        <SignupForm navigationButtonProps={navigationButtonProps} />,
         <ScriptureSelect navigationButtonProps={navigationButtonProps} />,
         <AddressForm
-            name="recipient-address-form"
-            isRecipientForm
+            name={SessionKeys['userAddressForm']}
+            isRecipientForm={false}
             googleMapsApiKey={secrets.googleMapsApiKey}
             navigationButtonProps={navigationButtonProps}
         />,
-        <PaymentFormLoader
-            stripeApiKey={secrets.stripeApiKey}
+        <AddressForm
+            name={SessionKeys['recipientAddressForm']}
+            isRecipientForm
+            googleMapsApiKey={secrets.googleMapsApiKey}
             navigationButtonProps={navigationButtonProps}
         />,
         <ReviewSubmitForm
@@ -108,7 +106,8 @@ export default function CreatePostcardFlow() {
                         key={i}
                         id={i + '-component-animation-wrapper'}
                         className={
-                            i === page
+                            // show conf on last page
+                            i === page || (i === 4 && page === 5)
                                 ? 'animate-fade-up animate-duration-500'
                                 : 'invisible h-0'
                         }

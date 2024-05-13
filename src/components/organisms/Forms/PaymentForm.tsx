@@ -1,14 +1,12 @@
 import { useState } from 'react'
 import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
-import { useAuthenticator } from '@aws-amplify/ui-react'
-import { useSessionStorage } from 'usehooks-ts'
-import { SessionKeys } from '@/types'
 import MultistepNavigationButtons, {
     MultistepNavigationButtonsProps,
 } from '../CreatePostcardFlow/MultistepNavigationButtons'
 import { StripeError } from '@stripe/stripe-js'
 import { Heading } from '@/components/atoms/Typography/Heading'
 import { SubHeading } from '@/components/atoms/Typography/SubHeading'
+import { client } from '@/client'
 
 const paymentElementOptions = {
     layout: 'tabs',
@@ -21,12 +19,6 @@ export default function CheckoutForm({
 }) {
     const stripe = useStripe()
     const elements = useElements()
-    const { user } = useAuthenticator((context) => [context.user])
-
-    const [confToken, setConfToken] = useSessionStorage<string>(
-        SessionKeys['confirmationToken'],
-        ''
-    )
 
     const [message, setMessage] = useState<string>()
     const [error, setError] = useState<string>()
@@ -37,11 +29,7 @@ export default function CheckoutForm({
         setError(error.message)
     }
 
-    const handleSubmit = async (
-        callback: MultistepNavigationButtonsProps['onNext']
-    ) => {
-        console.log('!handle payment')
-
+    const handleSubmit = async () => {
         if (!stripe || !elements) {
             // Stripe.js hasn't yet loaded.
             // Make sure to disable form submission until Stripe.js has loaded.
@@ -57,44 +45,40 @@ export default function CheckoutForm({
             return
         }
 
-        // Create the ConfirmationToken using the details collected by the Payment Element
-        const { error, confirmationToken } =
-            await stripe.createConfirmationToken({
-                elements,
-                params: {
-                    payment_method_data: {
-                        billing_details: {
-                            // TODO does loginId include email when logged in with social?
-                            // email: user.signInDetails.loginId,
-                        },
-                    },
-                },
+        // Create the PaymentIntent and obtain clientSecret
+        const clientSecret = await client.queries
+            .stripeCreateIntent()
+            .then(({ data }) => {
+                return data?.stripeSecret
             })
+            .catch((error) => setError(error.message))
 
-        if (!error && confirmationToken) {
-            setConfToken(confirmationToken.id)
-            callback()
-        }
+        if (!clientSecret) return
 
-        // This point is only reached if there's an immediate error when
-        // creating the ConfirmationToken. Show the error to your customer (for example, payment details incomplete)
-        if (
-            error &&
-            (error.type === 'card_error' || error.type === 'validation_error')
-        ) {
-            console.error('Error:', error.message)
+        const { error } = await stripe.confirmPayment({
+            elements,
+            clientSecret,
+            confirmParams: {
+                return_url: window.location.href,
+            },
+        })
+
+        // This point will only be reached if there is an immediate error when confirming the payment. Otherwise, your customer will be redirected to your `return_url`. For some payment methods like iDEAL, your customer will be redirected to an intermediate site first to authorize the payment, then redirected to the `return_url`.
+        if (error.type === 'card_error' || error.type === 'validation_error') {
             setMessage(error.message)
+        } else {
+            setMessage('An unexpected error occurred.')
         }
 
         setIsLoading(false)
     }
 
     return (
-        <>
+        <section className="mb-52">
             <Heading>Add Payment</Heading>
             <SubHeading>
-                Payment will not be processed until you review & submit in the
-                next step.
+                Payment will be processed when you click the Schedule & Pay
+                button.
             </SubHeading>
 
             {message && (
@@ -125,15 +109,17 @@ export default function CheckoutForm({
                 <MultistepNavigationButtons
                     {...navigationButtonProps}
                     onNext={() => {
-                        handleSubmit(navigationButtonProps.onNext)
+                        handleSubmit()
+                        navigationButtonProps.onNext()
                     }}
                     nextButtonProps={{
                         ...navigationButtonProps.nextButtonProps,
                         disabled: isLoading || !stripe || !elements,
+                        content: 'Schedule & Pay',
                         isLoading,
                     }}
                 />
             </form>
-        </>
+        </section>
     )
 }

@@ -1,7 +1,7 @@
 import { Autocomplete, AutocompleteItem } from '@nextui-org/react'
 import { useAsyncList } from '@react-stately/data'
 import { debounce, get, kebabCase } from 'lodash'
-import { RecipientFormData } from './AddressForm'
+import { AddressFormSchema } from './AddressForm'
 
 type Place = {
     placePrediction: {
@@ -23,7 +23,7 @@ export function AddressAutocomplete({
     onAutofillForm,
 }: {
     googleMapsApiKey: string
-    onAutofillForm: (address: Partial<RecipientFormData>) => void
+    onAutofillForm: (address: Partial<AddressFormSchema>) => void
 }) {
     const addressList = useAsyncPlaceList(googleMapsApiKey)
 

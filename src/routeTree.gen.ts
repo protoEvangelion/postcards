@@ -12,8 +12,10 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as SeedImport } from './routes/seed'
-import { Route as CreateImport } from './routes/create'
+import { Route as AppImport } from './routes/app'
 import { Route as IndexImport } from './routes/index'
+import { Route as AppHomeImport } from './routes/app.home'
+import { Route as AppCreateImport } from './routes/app.create'
 
 // Create/Update Routes
 
@@ -22,14 +24,24 @@ const SeedRoute = SeedImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const CreateRoute = CreateImport.update({
-  path: '/create',
+const AppRoute = AppImport.update({
+  path: '/app',
   getParentRoute: () => rootRoute,
 } as any)
 
 const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AppHomeRoute = AppHomeImport.update({
+  path: '/home',
+  getParentRoute: () => AppRoute,
+} as any)
+
+const AppCreateRoute = AppCreateImport.update({
+  path: '/create',
+  getParentRoute: () => AppRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -40,13 +52,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/create': {
-      preLoaderRoute: typeof CreateImport
+    '/app': {
+      preLoaderRoute: typeof AppImport
       parentRoute: typeof rootRoute
     }
     '/seed': {
       preLoaderRoute: typeof SeedImport
       parentRoute: typeof rootRoute
+    }
+    '/app/create': {
+      preLoaderRoute: typeof AppCreateImport
+      parentRoute: typeof AppImport
+    }
+    '/app/home': {
+      preLoaderRoute: typeof AppHomeImport
+      parentRoute: typeof AppImport
     }
   }
 }
@@ -55,7 +75,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
-  CreateRoute,
+  AppRoute.addChildren([AppCreateRoute, AppHomeRoute]),
   SeedRoute,
 ])
 

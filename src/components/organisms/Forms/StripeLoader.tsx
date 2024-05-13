@@ -1,24 +1,15 @@
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 
-import PaymentForm from './PaymentForm'
 import { useMemo } from 'react'
-import { MultistepNavigationButtonsProps } from '../CreatePostcardFlow/MultistepNavigationButtons'
 
-export function PaymentFormLoader({
+export function StripeLoader({
     stripeApiKey,
-    navigationButtonProps,
+    children,
 }: {
     stripeApiKey: string
-    navigationButtonProps: MultistepNavigationButtonsProps
+    children: React.ReactNode
 }) {
-    // const { data } = useQuery({
-    //     queryKey: [QueryKeys.HandleStripePayment],
-    //     queryFn: () => client.queries.handleStripePayment(),
-    // })
-
-    // const clientSecret = data?.data?.stripeSecret
-
     const stripePromise = useMemo(
         () => (stripeApiKey ? loadStripe(stripeApiKey) : null),
         [stripeApiKey]
@@ -38,7 +29,7 @@ export function PaymentFormLoader({
             }}
             stripe={stripePromise}
         >
-            <PaymentForm navigationButtonProps={navigationButtonProps} />
+            {children}
         </Elements>
     ) : null
 }

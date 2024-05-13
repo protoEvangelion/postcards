@@ -2,7 +2,7 @@ import { Timeline } from 'react-daisyui'
 import { Schema } from 'amplify/data/resource'
 import { SelectionSet } from 'aws-amplify/api'
 import { useQuery } from '@tanstack/react-query'
-import { client } from '@/client'
+import { QueryKeys, client, useScriptureCategoryList } from '@/client'
 import { Heading } from '@/components/atoms/Typography/Heading'
 import { SubHeading } from '@/components/atoms/Typography/SubHeading'
 import { Tooltip } from '@nextui-org/react'
@@ -14,6 +14,7 @@ import { FormSelect } from '@/components/molecules/FormSelect'
 import MultistepNavigationButtons, {
     MultistepNavigationButtonsProps,
 } from '../../CreatePostcardFlow/MultistepNavigationButtons'
+import { SessionKeys } from '@/types'
 
 const categorySelectionSet = ['id', 'scriptures.*', 'text'] as const
 
@@ -21,7 +22,7 @@ const schema = z.object({
     category: z.string().optional(),
 })
 
-type ScriptureFormSchema = z.infer<typeof schema>
+export type ScriptureFormSchema = z.infer<typeof schema>
 
 export type CategoryData = SelectionSet<
     Schema['Category']['type'],
@@ -33,13 +34,7 @@ export function ScriptureSelect({
 }: {
     navigationButtonProps: MultistepNavigationButtonsProps
 }) {
-    const { data: { data: categories } = {} } = useQuery({
-        queryKey: ['categoryList'],
-        queryFn: () =>
-            client.models.Category.list({
-                selectionSet: ['id', 'scriptures.*', 'text'],
-            }),
-    })
+    const { data: { data: categories } = {} } = useScriptureCategoryList()
 
     const { setValue, control, watch, getValues } =
         useForm<ScriptureFormSchema>({
@@ -47,7 +42,7 @@ export function ScriptureSelect({
             mode: 'onBlur',
         })
 
-    useFormPersist('scripture-select-form', {
+    useFormPersist(SessionKeys['selectScriptureForm'], {
         watch,
         setValue,
         storage: window.sessionStorage,

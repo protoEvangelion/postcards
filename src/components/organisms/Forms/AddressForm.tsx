@@ -16,7 +16,7 @@ import { FormInput } from '@/components/molecules/FormInput'
 import { FormSelect } from '@/components/molecules/FormSelect'
 
 // Define the validation schema using zod
-const recipientSchema = z.object({
+const addressSchema = z.object({
     isRecipientAddress: z.boolean(),
     name: z.string().min(1, { message: 'Name is required' }),
     address: z.string().min(1, { message: 'Address is required' }),
@@ -27,7 +27,7 @@ const recipientSchema = z.object({
     state: z.string().optional(),
 })
 // Define the form inputs type based on the schema
-export type RecipientFormData = z.infer<typeof recipientSchema>
+export type AddressFormSchema = z.infer<typeof addressSchema>
 
 export interface AddressFormProps
     extends React.HTMLAttributes<HTMLFormElement> {
@@ -45,8 +45,8 @@ const AddressForm = ({
     navigationButtonProps,
 }: AddressFormProps) => {
     const { handleSubmit, setValue, control, trigger, watch } =
-        useForm<RecipientFormData>({
-            resolver: zodResolver(recipientSchema),
+        useForm<AddressFormSchema>({
+            resolver: zodResolver(addressSchema),
             mode: 'onBlur',
         })
 
@@ -64,7 +64,7 @@ const AddressForm = ({
         },
     } as const
 
-    const onSubmit: SubmitHandler<RecipientFormData> = (formData) => {
+    const onSubmit: SubmitHandler<AddressFormSchema> = (formData) => {
         console.log('!', formData)
         // client.models.Recipient.create({ ...formData }).then((d) => {
         //     console.log('recipient', d.data)
@@ -89,7 +89,7 @@ const AddressForm = ({
                 onAutofillForm={(address) => {
                     console.log('autofill', address)
                     Object.entries(address).forEach(([key, value]) => {
-                        setValue(key as keyof RecipientFormData, value)
+                        setValue(key as keyof AddressFormSchema, value)
                     })
 
                     // retrigger onBlur validation
@@ -104,15 +104,13 @@ const AddressForm = ({
                 )}
                 onSubmit={handleSubmit(onSubmit)}
             >
-                {isRecipientForm && (
-                    <FormInput
-                        {...inputProps}
-                        name="name"
-                        label="Name"
-                        className="col-span-12 md:col-span-12"
-                        placeholder="First & Last Name"
-                    />
-                )}
+                <FormInput
+                    {...inputProps}
+                    name="name"
+                    label="Name"
+                    className="col-span-12 md:col-span-12"
+                    placeholder="First & Last Name"
+                />
 
                 <FormInput
                     {...inputProps}
