@@ -5,5 +5,5 @@ export const Route = createFileRoute('/app/home')({
 })
 
 function HomePage() {
-    return 'home skillz'
+    return 'home'
 }

@@ -49,7 +49,7 @@ export default function CheckoutForm({
         const clientSecret = await client.queries
             .stripeCreateIntent()
             .then(({ data }) => {
-                return data?.stripeSecret
+                return data?.stripeClientSecret
             })
             .catch((error) => setError(error.message))
 
@@ -110,7 +110,6 @@ export default function CheckoutForm({
                     {...navigationButtonProps}
                     onNext={() => {
                         handleSubmit()
-                        navigationButtonProps.onNext()
                     }}
                     nextButtonProps={{
                         ...navigationButtonProps.nextButtonProps,

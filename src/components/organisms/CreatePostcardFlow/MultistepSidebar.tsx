@@ -51,6 +51,7 @@ const MultiStepSidebar = React.forwardRef<
         return (
             <div
                 ref={ref}
+                id="multistep-sidebar"
                 className={cn('flex  w-full gap-x-2', className)}
                 {...props}
             >

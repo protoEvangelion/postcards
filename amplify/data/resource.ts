@@ -11,7 +11,7 @@ const apiKeysHandler = defineFunction({
     name: 'api-keys',
     environment: {
         GOOGLE_MAPS_API_KEY: secret('googleMapsApiKey'),
-        STRIPE_API_KEY: secret('stripeApiKey'),
+        STRIPE_PUBLIC_KEY: secret('stripePublicKey'),
     },
 })
 
@@ -19,7 +19,7 @@ const stripeCreateIntentHandler = defineFunction({
     entry: '../function/stripe/create-intent.ts',
     name: 'create-intent',
     environment: {
-        STRIPE_CLIENT_SECRET: secret('stripeClientSecret'),
+        STRIPE_SECRET_KEY: secret('stripeSecretKey'),
     },
 })
 
@@ -27,7 +27,16 @@ const stripeSummarizePaymentHandler = defineFunction({
     entry: '../function/stripe/summarize-payment.ts',
     name: 'summarize-payment',
     environment: {
-        STRIPE_CLIENT_SECRET: secret('stripeClientSecret'),
+        STRIPE_SECRET_KEY: secret('stripeSecretKey'),
+    },
+})
+
+const postgridCreateContactHandler = defineFunction({
+    entry: '../function/postgrid/create-contact.ts',
+    name: 'create-contact',
+    environment: {
+        STRIPE_SECRET_KEY: secret('stripeSecretKey'),
+        POSTGRID_API_KEY: secret('postgridApiKey'),
     },
 })
 
@@ -77,7 +86,7 @@ const schema = a.schema({
     // FUNCTIONS
     ApiKeyResponse: a.customType({
         googleMapsApiKey: a.string(),
-        stripeApiKey: a.string(),
+        stripePublicKey: a.string(),
     }),
     handleApiKeys: a
         .query()
@@ -86,7 +95,7 @@ const schema = a.schema({
         .handler(a.handler.function(apiKeysHandler)),
 
     StripeCreateIntentResponse: a.customType({
-        stripeSecret: a.string(),
+        stripeClientSecret: a.string(),
     }),
     stripeCreateIntent: a
         .query()
@@ -103,6 +112,15 @@ const schema = a.schema({
         .returns(a.ref('StripeSummarizePaymentResponse'))
         .authorization((allow) => [allow.authenticated()])
         .handler(a.handler.function(stripeSummarizePaymentHandler)),
+
+    PostgridCreateContactResponse: a.customType({
+        text: a.string(),
+    }),
+    postgridCreateContact: a
+        .query()
+        .returns(a.ref('PostgridCreateContactResponse'))
+        .authorization((allow) => [allow.authenticated()])
+        .handler(a.handler.function(postgridCreateContactHandler)),
 })
 
 export type Schema = ClientSchema<typeof schema>

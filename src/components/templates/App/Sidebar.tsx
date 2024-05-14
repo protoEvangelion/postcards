@@ -14,6 +14,7 @@ import {
 } from '@nextui-org/react'
 import { Icon } from '@iconify/react'
 import { cn } from '@/utils/cn'
+import { useNavigate } from '@tanstack/react-router'
 
 export enum SidebarItemType {
     Nest = 'nest',
@@ -61,6 +62,7 @@ export const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
     ) => {
         const [selected, setSelected] =
             React.useState<React.Key>(defaultSelectedKey)
+        const navigate = useNavigate()
 
         const sectionClasses = {
             ...sectionClassesProp,
@@ -208,7 +210,7 @@ export const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
         )
 
         const renderItem = React.useCallback(
-            (item: SidebarItem) => {
+            ({ href, ...item }: SidebarItem) => {
                 const isNestType =
                     item.items &&
                     item.items?.length > 0 &&
@@ -221,6 +223,9 @@ export const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
                 return (
                     <ListboxItem
                         {...item}
+                        onClick={() => {
+                            navigate({ to: href })
+                        }}
                         key={item.key}
                         endContent={
                             isCompact || hideEndContent

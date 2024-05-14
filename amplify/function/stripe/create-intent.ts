@@ -1,5 +1,5 @@
 import type { Schema } from '../../data/resource'
-import { env } from '$amplify/env/handler'
+import { env } from '$amplify/env/create-intent'
 import { Stripe } from 'stripe'
 
 export const handler: Schema['stripeCreateIntent']['functionHandler'] =
@@ -7,7 +7,7 @@ export const handler: Schema['stripeCreateIntent']['functionHandler'] =
         // event,
         // context
         {
-            const stripe = new Stripe(env.STRIPE_CLIENT_SECRET, {
+            const stripe = new Stripe(env.STRIPE_SECRET_KEY, {
                 typescript: true,
             })
 
@@ -22,6 +22,6 @@ export const handler: Schema['stripeCreateIntent']['functionHandler'] =
             })
 
             return {
-                stripeSecret: paymentIntent.client_secret,
+                stripeClientSecret: paymentIntent.client_secret,
             }
         }

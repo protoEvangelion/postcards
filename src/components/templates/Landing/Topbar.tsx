@@ -3,13 +3,12 @@ import { Menu as MenuIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useAuthenticator } from '@aws-amplify/ui-react'
 import { Link } from '@tanstack/react-router'
-import { Login } from '@/components/organisms/Auth/Login'
 
 export const Topbar = () => {
     const [drawerOpened, setDrawerOpened] = useState(false)
     const [atTop, setAtTop] = useState(true)
 
-    const { user, signOut } = useAuthenticator((context) => [context.user])
+    const { user } = useAuthenticator((context) => [context.user])
 
     useEffect(() => {
         const onWindowScroll = () => {
@@ -106,11 +105,13 @@ export const Topbar = () => {
 
                     <Navbar.End className="gap-3">
                         {user ? (
-                            <Button size="sm" onClick={() => signOut()}>
-                                Logout
-                            </Button>
+                            <Link to="/app/create">
+                                <Button size="sm">Dashboard</Button>
+                            </Link>
                         ) : (
-                            <Login />
+                            <Link to="/login">
+                                <Button size="sm">Get Started</Button>
+                            </Link>
                         )}
                     </Navbar.End>
                 </Navbar>

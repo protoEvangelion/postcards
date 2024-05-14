@@ -10,7 +10,7 @@ import { routeTree } from './routeTree.gen'
 
 import { Amplify } from 'aws-amplify'
 import amplifyconfig from '../amplify_outputs.json'
-import { Authenticator } from '@aws-amplify/ui-react'
+import { Authenticator, ThemeProvider } from '@aws-amplify/ui-react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import './client'
 
@@ -19,6 +19,20 @@ Amplify.configure(amplifyconfig)
 const router = createRouter({ routeTree })
 
 const queryClient = new QueryClient()
+
+const theme = {
+    name: 'my-theme',
+    tokens: {
+        components: {
+            authenticator: {
+                router: {
+                    borderStyle: 'none',
+                    boxShadow: 'none',
+                },
+            },
+        },
+    },
+}
 
 // Register the router instance for type safety
 declare module '@tanstack/react-router' {
@@ -29,12 +43,14 @@ declare module '@tanstack/react-router' {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <Authenticator.Provider>
-            <NextUIProvider>
-                <QueryClientProvider client={queryClient}>
-                    <RouterProvider router={router} />
-                </QueryClientProvider>
-            </NextUIProvider>
-        </Authenticator.Provider>
+        <ThemeProvider theme={theme}>
+            <Authenticator.Provider>
+                <NextUIProvider>
+                    <QueryClientProvider client={queryClient}>
+                        <RouterProvider router={router} />
+                    </QueryClientProvider>
+                </NextUIProvider>
+            </Authenticator.Provider>
+        </ThemeProvider>
     </React.StrictMode>
 )

@@ -9,14 +9,15 @@ import { Divider } from '@nextui-org/react'
 import { AddressFormSchema } from './AddressForm'
 import { getStateAbbrev } from '../CreatePostcardFlow/states'
 import { StripeLoader } from './StripeLoader'
-import PaymentResult from './PaymentResult'
+import PaymentResult from '../CreatePostcardFlow/PaymentResult'
 import PaymentForm from './PaymentForm'
+import { useEffect } from 'react'
 
 export function ReviewSubmitForm({
-    stripeApiKey,
+    stripePublicKey,
     navigationButtonProps,
 }: {
-    stripeApiKey: string
+    stripePublicKey: string
     navigationButtonProps: MultistepNavigationButtonsProps
 }) {
     const [selectedScripture] = useSessionStorage<ScriptureFormSchema>(
@@ -43,8 +44,12 @@ export function ReviewSubmitForm({
         'payment_intent_client_secret'
     )
 
+    useEffect(() => {
+        navigationButtonProps.onNext()
+    }, [clientSecret])
+
     return (
-        <StripeLoader stripeApiKey={stripeApiKey}>
+        <StripeLoader stripePublicKey={stripePublicKey}>
             {clientSecret ? (
                 <PaymentResult />
             ) : (

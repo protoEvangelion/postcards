@@ -2,9 +2,14 @@ import { useEffect, useState } from 'react'
 import { useStripe } from '@stripe/react-stripe-js'
 import { SuccessSvg } from '@/components/atoms/Svgs/Success'
 import { Link } from '@tanstack/react-router'
+import { client } from '@/client'
 
 export default function PaymentResult() {
     const stripe = useStripe()
+
+    // useEffect(() => {
+    //     client.queries.postgridCreateContact()
+    // }, [])
 
     const [message, setMessage] = useState<string>()
 

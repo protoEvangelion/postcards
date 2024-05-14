@@ -4,18 +4,18 @@ import { Elements } from '@stripe/react-stripe-js'
 import { useMemo } from 'react'
 
 export function StripeLoader({
-    stripeApiKey,
+    stripePublicKey,
     children,
 }: {
-    stripeApiKey: string
+    stripePublicKey: string
     children: React.ReactNode
 }) {
     const stripePromise = useMemo(
-        () => (stripeApiKey ? loadStripe(stripeApiKey) : null),
-        [stripeApiKey]
+        () => (stripePublicKey ? loadStripe(stripePublicKey) : null),
+        [stripePublicKey]
     )
 
-    return stripeApiKey ? (
+    return stripePublicKey ? (
         <Elements
             options={{
                 mode: 'payment',

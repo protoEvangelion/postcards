@@ -1,6 +1,7 @@
 import React from 'react'
 import {
     Avatar,
+    AvatarIcon,
     Button,
     ScrollShadow,
     Spacer,
@@ -11,7 +12,8 @@ import { Icon } from '@iconify/react'
 import { sectionItems } from './SidebarItems'
 import { Sidebar } from './Sidebar'
 import { SidebarDrawer } from './SidebarDrawer'
-import { useRouterState } from '@tanstack/react-router'
+import { Link, useNavigate, useRouterState } from '@tanstack/react-router'
+import { useAuthenticator } from '@aws-amplify/ui-react'
 
 export function AppLayout({
     children,
@@ -22,9 +24,12 @@ export function AppLayout({
     header?: React.ReactNode
     title?: string
 }) {
+    const { user, signOut } = useAuthenticator((context) => [context.user])
+    console.log('user', user)
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
     const state = useRouterState()
     const currentRoutes = state.location.pathname.split('/')
+    const navigate = useNavigate()
 
     const content = (
         <div className="relative flex h-full flex-1 flex-col bg-gradient-to-b from-default-100 via-danger-100 to-secondary-100 p-6">
@@ -32,9 +37,11 @@ export function AppLayout({
                 <div className="flex h-8 w-8 items-center justify-center rounded-full border-foreground/20">
                     <Icon icon="arcticons:sendit" />
                 </div>
-                <span className="text-small font-medium text-foreground">
-                    SendScripture
-                </span>
+                <Link to="/">
+                    <span className="text-small font-medium text-foreground">
+                        SendScripture
+                    </span>
+                </Link>
             </div>
 
             <Spacer y={8} />
@@ -42,15 +49,12 @@ export function AppLayout({
             <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-3 px-2">
                     <Avatar
-                        size="sm"
-                        src="https://i.pravatar.cc/150?u=a04258114e29028708c"
+                        icon={<AvatarIcon />}
+                        classNames={{
+                            base: 'bg-gradient-to-br',
+                            icon: 'text-black/80',
+                        }}
                     />
-                    <div className="flex flex-col">
-                        <p className="text-small text-foreground">Jane Doe</p>
-                        <p className="text-tiny text-default-500">
-                            Product Designer
-                        </p>
-                    </div>
                 </div>
             </div>
 
@@ -88,7 +92,12 @@ export function AppLayout({
                 >
                     Help & Information
                 </Button>
+
                 <Button
+                    onClick={() => {
+                        signOut()
+                        navigate({ to: '/' })
+                    }}
                     className="justify-start text-default-600 data-[hover=true]:text-black"
                     startContent={
                         <Icon
@@ -99,7 +108,7 @@ export function AppLayout({
                     }
                     variant="light"
                 >
-                    Log Out
+                    Logout
                 </Button>
             </div>
         </div>

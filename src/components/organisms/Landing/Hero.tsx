@@ -34,7 +34,7 @@ export const Hero = () => {
                             postcard, and mail it!
                         </p>
                         <div className="mt-16 inline-flex gap-3">
-                            <Link to="/create">
+                            <Link to="/app/create">
                                 <Button color="primary">Get Started</Button>
                             </Link>
                             <Button color="ghost">Learn More</Button>

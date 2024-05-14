@@ -30,7 +30,7 @@ export default function CreatePostcardFlow() {
             setPage((prev) => {
                 const nextPage = prev + newDirection
 
-                if (nextPage < 0 || nextPage > 4) return prev
+                if (nextPage < 0 || nextPage > 5) return prev
 
                 return nextPage
             })
@@ -57,7 +57,7 @@ export default function CreatePostcardFlow() {
         paginate(1)
     }, [paginate])
 
-    if (!secrets?.stripeApiKey || !secrets?.googleMapsApiKey)
+    if (!secrets?.stripePublicKey || !secrets?.googleMapsApiKey)
         return <CircularProgress />
 
     const navigationButtonProps: MultistepNavigationButtonsProps = {
@@ -88,7 +88,7 @@ export default function CreatePostcardFlow() {
             navigationButtonProps={navigationButtonProps}
         />,
         <ReviewSubmitForm
-            stripeApiKey={secrets.stripeApiKey}
+            stripePublicKey={secrets.stripePublicKey}
             navigationButtonProps={navigationButtonProps}
         />,
     ]

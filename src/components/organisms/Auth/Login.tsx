@@ -7,6 +7,7 @@ export const Login = () => {
     const handleShow = useCallback(() => {
         ref.current?.showModal()
     }, [ref])
+
     return (
         <div className="font-sans">
             <Button size="sm" color="primary" onClick={handleShow}>

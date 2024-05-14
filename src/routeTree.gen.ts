@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as SeedImport } from './routes/seed'
+import { Route as LoginImport } from './routes/login'
 import { Route as AppImport } from './routes/app'
 import { Route as IndexImport } from './routes/index'
 import { Route as AppHomeImport } from './routes/app.home'
@@ -21,6 +22,11 @@ import { Route as AppCreateImport } from './routes/app.create'
 
 const SeedRoute = SeedImport.update({
   path: '/seed',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LoginRoute = LoginImport.update({
+  path: '/login',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -56,6 +62,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppImport
       parentRoute: typeof rootRoute
     }
+    '/login': {
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
     '/seed': {
       preLoaderRoute: typeof SeedImport
       parentRoute: typeof rootRoute
@@ -76,6 +86,7 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
   AppRoute.addChildren([AppCreateRoute, AppHomeRoute]),
+  LoginRoute,
   SeedRoute,
 ])
 
