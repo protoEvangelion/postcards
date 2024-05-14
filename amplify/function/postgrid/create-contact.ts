@@ -2,13 +2,7 @@ import type { Schema } from '../../data/resource'
 // import { env } from '$amplify/env/handler'
 // import { Stripe } from 'stripe'
 // import { PostGrid } from 'postgrid-node-client'
-import { generateClient } from 'aws-amplify/data'
-import { Amplify } from 'aws-amplify'
-import amplifyconfig from '../../../amplify_outputs.json'
 
-Amplify.configure(amplifyconfig)
-
-const client = generateClient<Schema>()
 export const handler: Schema['postgridCreateContact']['functionHandler'] =
     async () => {
         // const client = new PostGrid({
@@ -26,9 +20,9 @@ export const handler: Schema['postgridCreateContact']['functionHandler'] =
         //     },
         // })
 
-        const scriptures = await client.models.Scripture.list()
+        // const scriptures = await client.models.Scripture.list()
 
         // Verify we successfully collected funds from customer to pay
 
-        return { text: scriptures.data[0].text }
+        return { text: 'scriptures.data[0].text' }
     }
