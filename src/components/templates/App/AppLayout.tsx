@@ -25,7 +25,6 @@ export function AppLayout({
     title?: string
 }) {
     const { user, signOut } = useAuthenticator((context) => [context.user])
-    console.log('user', user)
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
     const state = useRouterState()
     const currentRoutes = state.location.pathname.split('/')

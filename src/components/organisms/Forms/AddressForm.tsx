@@ -1,7 +1,7 @@
 import { cn } from '@nextui-org/react'
 
 import React from 'react'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { AddressAutocomplete } from './AddressAutocomplete'
@@ -17,7 +17,6 @@ import { FormSelect } from '@/components/molecules/FormSelect'
 
 // Define the validation schema using zod
 const addressSchema = z.object({
-    isRecipientAddress: z.boolean(),
     name: z.string().min(1, { message: 'Name is required' }),
     address: z.string().min(1, { message: 'Address is required' }),
     address2: z.string().optional(),
@@ -44,7 +43,7 @@ const AddressForm = ({
     name,
     navigationButtonProps,
 }: AddressFormProps) => {
-    const { handleSubmit, setValue, control, trigger, watch } =
+    const { setValue, control, trigger, watch, handleSubmit } =
         useForm<AddressFormSchema>({
             resolver: zodResolver(addressSchema),
             mode: 'onBlur',
@@ -64,22 +63,22 @@ const AddressForm = ({
         },
     } as const
 
-    const onSubmit: SubmitHandler<AddressFormSchema> = (formData) => {
-        console.log('!', formData)
-        // client.models.Recipient.create({ ...formData }).then((d) => {
-        //     console.log('recipient', d.data)
-        //     setRecipient(d.data)
-        // })
-    }
-
     return (
         <>
-            {isRecipientForm && (
+            {isRecipientForm ? (
                 <>
-                    <Heading>Choose Address</Heading>
+                    <Heading>Add Address</Heading>
                     <SubHeading>
                         Add recipient address where the postcard will be
                         delivered.
+                    </SubHeading>
+                </>
+            ) : (
+                <>
+                    <Heading>Add Address</Heading>
+                    <SubHeading>
+                        Add your address which will appear as the return address
+                        on the postcard.
                     </SubHeading>
                 </>
             )}
@@ -87,7 +86,6 @@ const AddressForm = ({
             <AddressAutocomplete
                 googleMapsApiKey={googleMapsApiKey}
                 onAutofillForm={(address) => {
-                    console.log('autofill', address)
                     Object.entries(address).forEach(([key, value]) => {
                         setValue(key as keyof AddressFormSchema, value)
                     })
@@ -102,7 +100,10 @@ const AddressForm = ({
                     'grid grid-cols-12 flex-col gap-4 py-8',
                     className
                 )}
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit((a, e) => {
+                    e?.preventDefault()
+                    navigationButtonProps.onNext()
+                })}
             >
                 <FormInput
                     {...inputProps}
@@ -151,7 +152,12 @@ const AddressForm = ({
                     className="col-span-12 md:col-span-4"
                 />
 
-                <MultistepNavigationButtons {...navigationButtonProps} />
+                <MultistepNavigationButtons
+                    {...navigationButtonProps}
+                    onNext={() => {
+                        // onNext handled onSubmit
+                    }}
+                />
             </form>
         </>
     )

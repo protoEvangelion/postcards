@@ -7,6 +7,8 @@ import { StripeError } from '@stripe/stripe-js'
 import { Heading } from '@/components/atoms/Typography/Heading'
 import { SubHeading } from '@/components/atoms/Typography/SubHeading'
 import { client } from '@/client'
+import { SessionKeys } from '@/types'
+import { useSessionStorage } from 'usehooks-ts'
 
 const paymentElementOptions = {
     layout: 'tabs',

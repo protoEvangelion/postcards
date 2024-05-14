@@ -1,7 +1,6 @@
 import type { ButtonProps, LinkProps } from '@nextui-org/react'
 
 import { Button } from '@nextui-org/react'
-import { Link } from '@tanstack/react-router'
 import { startsWith } from 'lodash'
 
 export type ButtonWithBorderGradientProps = ButtonProps &
@@ -28,8 +27,6 @@ export const ButtonWithBorderGradient = ({
 
     return (
         <Button
-            as={Link}
-            href="#"
             {...props}
             style={{
                 ...style,

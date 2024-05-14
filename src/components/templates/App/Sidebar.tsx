@@ -225,6 +225,7 @@ export const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
                         {...item}
                         onClick={() => {
                             navigate({ to: href })
+                            window.sessionStorage.clear()
                         }}
                         key={item.key}
                         endContent={

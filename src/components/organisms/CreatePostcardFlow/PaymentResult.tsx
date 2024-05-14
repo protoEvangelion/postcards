@@ -2,14 +2,19 @@ import { useEffect, useState } from 'react'
 import { useStripe } from '@stripe/react-stripe-js'
 import { SuccessSvg } from '@/components/atoms/Svgs/Success'
 import { Link } from '@tanstack/react-router'
-import { client } from '@/client'
+import { useSessionStorage } from 'usehooks-ts'
+import { SessionKeys } from '@/types'
+import { ButtonWithBorderGradient } from '@/components/atoms/ButtonWithBorderGradient'
 
 export default function PaymentResult() {
     const stripe = useStripe()
 
-    // useEffect(() => {
-    //     client.queries.postgridCreateContact()
-    // }, [])
+    const [_, setPage] = useSessionStorage(SessionKeys['createStepsState'], 5)
+
+    useEffect(() => {
+        // Set page one after so last step shows a check
+        setPage(5)
+    }, [])
 
     const [message, setMessage] = useState<string>()
 
@@ -50,13 +55,13 @@ export default function PaymentResult() {
         <div className="card w-96 bg-base-100 shadow-xl">
             <SuccessSvg />
 
-            <div className="card-body">
+            <div className="card-body items-start gap-5">
                 <h2 className="card-title">{message}</h2>
                 <p>Continue to see your scheduled cards.</p>
-                <div className="card-actions justify-end">
-                    <button className="btn btn-primary">
+                <div className="card-actions">
+                    <ButtonWithBorderGradient className="text-medium font-medium">
                         <Link to="/app/home">Continue</Link>
-                    </button>
+                    </ButtonWithBorderGradient>
                 </div>
             </div>
         </div>

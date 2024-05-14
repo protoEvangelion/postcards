@@ -11,7 +11,6 @@ import { getStateAbbrev } from '../CreatePostcardFlow/states'
 import { StripeLoader } from './StripeLoader'
 import PaymentResult from '../CreatePostcardFlow/PaymentResult'
 import PaymentForm from './PaymentForm'
-import { useEffect } from 'react'
 
 export function ReviewSubmitForm({
     stripePublicKey,
@@ -43,10 +42,6 @@ export function ReviewSubmitForm({
     const clientSecret = new URLSearchParams(window.location.search).get(
         'payment_intent_client_secret'
     )
-
-    useEffect(() => {
-        navigationButtonProps.onNext()
-    }, [clientSecret])
 
     return (
         <StripeLoader stripePublicKey={stripePublicKey}>

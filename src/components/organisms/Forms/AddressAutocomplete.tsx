@@ -51,8 +51,6 @@ export function AddressAutocomplete({
 
                 if (!place?.placeId) return
 
-                console.log('selected place', place)
-
                 fetch(
                     `https://places.googleapis.com/v1/places/${place.placeId}`,
                     {
@@ -85,7 +83,7 @@ export function AddressAutocomplete({
                                 x.types.includes('administrative_area_level_1')
                             )?.longText ?? ''
                         )
-                        console.log('state', state)
+
                         const zip =
                             addressComponents.find((x) =>
                                 x.types.includes('postal_code')
@@ -145,8 +143,6 @@ function useAsyncPlaceList(googleMapsApiKey: string) {
                 name: get(place, 'placePrediction.text.text'),
                 placeId: get(place, 'placePrediction.placeId'),
             }))
-
-            console.log('items', items)
 
             return {
                 items,
