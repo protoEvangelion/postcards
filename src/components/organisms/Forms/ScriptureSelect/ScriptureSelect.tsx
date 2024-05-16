@@ -1,8 +1,7 @@
 import { Timeline } from 'react-daisyui'
 import { Schema } from 'amplify/data/resource'
 import { SelectionSet } from 'aws-amplify/api'
-import { useQuery } from '@tanstack/react-query'
-import { QueryKeys, client, useScriptureCategoryList } from '@/client'
+import { useScriptureCategoryList } from '@/client'
 import { Heading } from '@/components/atoms/Typography/Heading'
 import { SubHeading } from '@/components/atoms/Typography/SubHeading'
 import { Tooltip } from '@nextui-org/react'
@@ -19,7 +18,9 @@ import { SessionKeys } from '@/types'
 const categorySelectionSet = ['id', 'scriptures.*', 'text'] as const
 
 const schema = z.object({
-    category: z.string().optional(),
+    category: z
+        .string()
+        .min(1, { message: 'Please select a scripture to continue.' }),
 })
 
 export type ScriptureFormSchema = z.infer<typeof schema>
@@ -36,7 +37,7 @@ export function ScriptureSelect({
 }) {
     const { data: { data: categories } = {} } = useScriptureCategoryList()
 
-    const { setValue, control, watch, getValues } =
+    const { setValue, control, watch, getValues, handleSubmit } =
         useForm<ScriptureFormSchema>({
             resolver: zodResolver(schema),
             mode: 'onBlur',
@@ -56,7 +57,13 @@ export function ScriptureSelect({
     const months = getNextTwelveMonths()
 
     return (
-        <div className="flex flex-col w-full component-preview py-8 justify-center gap-8">
+        <form
+            className="flex flex-col w-full component-preview py-8 justify-center gap-8"
+            onSubmit={handleSubmit((data, event) => {
+                event?.preventDefault()
+                navigationButtonProps.onNext()
+            })}
+        >
             <Heading>Select a Category</Heading>
             <SubHeading>
                 A category will include 12 Scriptures hand selected by our
@@ -107,8 +114,13 @@ export function ScriptureSelect({
                 </div>
             )}
 
-            <MultistepNavigationButtons {...navigationButtonProps} />
-        </div>
+            <MultistepNavigationButtons
+                {...navigationButtonProps}
+                onNext={() => {
+                    // onNext handled onSubmit
+                }}
+            />
+        </form>
     )
 }
 

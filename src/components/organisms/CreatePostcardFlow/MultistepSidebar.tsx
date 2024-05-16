@@ -2,7 +2,6 @@ import React from 'react'
 import { Button } from '@nextui-org/react'
 import { Icon } from '@iconify/react'
 
-import SupportCard from './SupportCard'
 import VerticalSteps from './VerticalSteps'
 
 import RowSteps from './RowSteps'
@@ -74,13 +73,7 @@ const MultiStepSidebar = React.forwardRef<
                         currentStep={currentPage}
                         steps={[
                             {
-                                title: 'Create an Account',
-                            },
-                            {
                                 title: 'Select Scripture',
-                            },
-                            {
-                                title: 'Your Address',
                             },
                             {
                                 title: 'Recipient Address',
@@ -91,7 +84,6 @@ const MultiStepSidebar = React.forwardRef<
                         ]}
                         onStepChange={onChangePage}
                     />
-                    <SupportCard className="w-full backdrop-blur-lg lg:bg-white/40 lg:shadow-none dark:lg:bg-white/20" />
                 </div>
                 <div className="flex h-full w-full flex-col items-center gap-4 md:p-4">
                     <div className="sticky top-0 z-10 w-full rounded-large bg-gradient-to-r from-default-100 via-danger-100 to-secondary-100 py-4 shadow-small md:max-w-xl lg:hidden">
@@ -102,13 +94,7 @@ const MultiStepSidebar = React.forwardRef<
                                 currentStep={currentPage}
                                 steps={[
                                     {
-                                        title: 'Account',
-                                    },
-                                    {
                                         title: 'Scripture',
-                                    },
-                                    {
-                                        title: 'From',
                                     },
                                     {
                                         title: 'To',
@@ -137,7 +123,6 @@ const MultiStepSidebar = React.forwardRef<
                             onBack={onBack}
                             onNext={onNext}
                         />
-                        <SupportCard className="mx-auto w-full max-w-[252px] lg:hidden" />
                     </div>
                 </div>
             </div>

@@ -10,6 +10,7 @@
         "start": "ampx sandbox --profile sso-amplify-proto",
         "login": "aws configure sso",
         "secret": "ampx sandbox --profile sso-amplify-proto secret set",
+        "generate": "ampx generate --profile sso-amplify-proto graphql-client-code --out amplify/function/stripe/graphql",
         "check:code": "tsc --noEmit && npm run check:code --prefix amplify"
     },
     "dependencies": {

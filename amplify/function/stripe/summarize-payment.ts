@@ -1,6 +1,6 @@
 import type { Schema } from '../../data/resource'
-import { env } from '$amplify/env/summarize-payment'
 import { Stripe } from 'stripe'
+import { env } from '../../../.amplify/generated/env/summarize-payment'
 
 export const handler: Schema['stripeSummarizePayment']['functionHandler'] =
     async (event) => {

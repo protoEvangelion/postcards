@@ -9,11 +9,11 @@ import { ButtonWithBorderGradient } from '@/components/atoms/ButtonWithBorderGra
 export default function PaymentResult() {
     const stripe = useStripe()
 
-    const [_, setPage] = useSessionStorage(SessionKeys['createStepsState'], 5)
+    const [_, setPage] = useSessionStorage(SessionKeys['createStepsState'], 4)
 
     useEffect(() => {
         // Set page one after so last step shows a check
-        setPage(5)
+        setPage(4)
     }, [])
 
     const [message, setMessage] = useState<string>()

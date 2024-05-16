@@ -36,13 +36,13 @@ const MultistepNavigationButtons = React.forwardRef<
         <div
             ref={ref}
             className={cn(
-                'mx-auto my-6 flex w-full items-center justify-center gap-x-4 lg:mx-0',
+                'lg:flex col-span-12 mx-auto my-6 flex w-full items-center justify-between gap-x-4 lg:mx-0',
                 className
             )}
             {...props}
         >
             <Button
-                className="rounded-medium border-default-200 text-medium font-medium text-default-500 lg:hidden"
+                className="rounded-medium border-default-200 text-medium font-medium text-default-500"
                 variant="bordered"
                 onPress={onBack}
                 {...backButtonProps}

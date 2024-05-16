@@ -1,7 +1,6 @@
 import type { Schema } from '../../data/resource'
-import { env } from '$amplify/env/create-intent'
 import { Stripe } from 'stripe'
-
+import { env } from '../../../.amplify/generated/env/create-intent'
 export const handler: Schema['stripeCreateIntent']['functionHandler'] =
     async () =>
         // event,

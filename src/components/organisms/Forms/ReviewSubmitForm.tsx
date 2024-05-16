@@ -21,15 +21,10 @@ export function ReviewSubmitForm({
 }) {
     const [selectedScripture] = useSessionStorage<ScriptureFormSchema>(
         SessionKeys['selectScriptureForm'],
-        {}
+        {} as any
     )
     const [recipientAddressForm] = useSessionStorage<AddressFormSchema>(
         SessionKeys['recipientAddressForm'],
-        {} as any
-    )
-
-    const [userAddressForm] = useSessionStorage<AddressFormSchema>(
-        SessionKeys['userAddressForm'],
         {} as any
     )
 
@@ -68,23 +63,13 @@ export function ReviewSubmitForm({
                         <div className="flex-grow basis-0 prose prose-sm flex flex-col justify-between items-start text-start">
                             <div className="flex flex-col items-start">
                                 <span>Return To:</span>
-                                <span>{userAddressForm?.name}</span>
-                                <span>{userAddressForm?.address}</span>
-                                <span>{userAddressForm?.address2}</span>
-                                <span>
-                                    <span>{userAddressForm?.city}, </span>
-                                    <span>
-                                        {getStateAbbrev(
-                                            userAddressForm?.state ?? ''
-                                        )}{' '}
-                                    </span>
-
-                                    <span>{userAddressForm?.zip}</span>
-                                </span>
+                                <span>SendScripture</span>
+                                <span>PO Box 1234</span>
                             </div>
 
                             <div className="flex flex-col">
                                 <span>{recipientAddressForm?.name}</span>
+                                <span>Or Current Resident</span>
                                 <span>{recipientAddressForm?.address}</span>
                                 <span>{recipientAddressForm?.address2}</span>
                                 <span>

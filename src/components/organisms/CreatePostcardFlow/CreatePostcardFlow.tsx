@@ -10,7 +10,6 @@ import { SessionKeys } from '@/types'
 import AddressForm from '../Forms/AddressForm'
 import { ReviewSubmitForm } from '../Forms/ReviewSubmitForm'
 import { ScriptureSelect } from '../Forms/ScriptureSelect/ScriptureSelect'
-import { SignupForm } from '../Forms/SignupForm'
 import { LazyMotion, domAnimation, m } from 'framer-motion'
 
 const variants = {
@@ -77,7 +76,6 @@ export default function CreatePostcardFlow() {
 
     const navigationButtonProps: MultistepNavigationButtonsProps = {
         backButtonProps: { isDisabled: page === 0 },
-        className: 'hidden justify-start lg:flex col-span-12',
         nextButtonProps: {
             children: 'Continue',
         },
@@ -88,36 +86,17 @@ export default function CreatePostcardFlow() {
     const content = useMemo(() => {
         const component = match({ page, secrets })
             .with({ page: 0 }, () => (
-                <SignupForm navigationButtonProps={navigationButtonProps} />
-            ))
-            .with({ page: 1 }, () => (
                 <ScriptureSelect
                     navigationButtonProps={navigationButtonProps}
                 />
             ))
             .with(
                 {
-                    page: 2,
+                    page: 1,
                     secrets: { googleMapsApiKey: P.not(P.nullish) },
                 },
                 ({ secrets: { googleMapsApiKey } }) => (
                     <AddressForm
-                        name={SessionKeys['userAddressForm']}
-                        isRecipientForm={false}
-                        googleMapsApiKey={googleMapsApiKey}
-                        navigationButtonProps={navigationButtonProps}
-                    />
-                )
-            )
-            .with(
-                {
-                    page: 3,
-                    secrets: { googleMapsApiKey: P.not(P.nullish) },
-                },
-                ({ secrets: { googleMapsApiKey } }) => (
-                    <AddressForm
-                        name={SessionKeys['recipientAddressForm']}
-                        isRecipientForm
                         googleMapsApiKey={googleMapsApiKey}
                         navigationButtonProps={navigationButtonProps}
                     />

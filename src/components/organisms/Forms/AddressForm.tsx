@@ -14,6 +14,7 @@ import { Heading } from '@/components/atoms/Typography/Heading'
 import { SubHeading } from '@/components/atoms/Typography/SubHeading'
 import { FormInput } from '@/components/molecules/FormInput'
 import { FormSelect } from '@/components/molecules/FormSelect'
+import { SessionKeys } from '@/types'
 
 // Define the validation schema using zod
 const addressSchema = z.object({
@@ -30,17 +31,13 @@ export type AddressFormSchema = z.infer<typeof addressSchema>
 
 export interface AddressFormProps
     extends React.HTMLAttributes<HTMLFormElement> {
-    isRecipientForm: boolean
     googleMapsApiKey: string
-    name: string
     navigationButtonProps: MultistepNavigationButtonsProps
 }
 
 const AddressForm = ({
     className,
-    isRecipientForm,
     googleMapsApiKey,
-    name,
     navigationButtonProps,
 }: AddressFormProps) => {
     const { setValue, control, trigger, watch, handleSubmit } =
@@ -49,7 +46,7 @@ const AddressForm = ({
             mode: 'onBlur',
         })
 
-    useFormPersist(name, {
+    useFormPersist(SessionKeys.recipientAddressForm, {
         watch,
         setValue,
         storage: window.sessionStorage,
@@ -65,23 +62,10 @@ const AddressForm = ({
 
     return (
         <>
-            {isRecipientForm ? (
-                <>
-                    <Heading>Add Address</Heading>
-                    <SubHeading>
-                        Add recipient address where the postcard will be
-                        delivered.
-                    </SubHeading>
-                </>
-            ) : (
-                <>
-                    <Heading>Add Address</Heading>
-                    <SubHeading>
-                        Add your address which will appear as the return address
-                        on the postcard.
-                    </SubHeading>
-                </>
-            )}
+            <Heading>Add Address</Heading>
+            <SubHeading>
+                Add recipient address where the postcard will be delivered.
+            </SubHeading>
 
             <AddressAutocomplete
                 googleMapsApiKey={googleMapsApiKey}
