@@ -9,6 +9,9 @@ import { SubHeading } from '@/components/atoms/Typography/SubHeading'
 import { client } from '@/client'
 import { SessionKeys } from '@/types'
 import { useSessionStorage } from 'usehooks-ts'
+import { useMutation } from '@tanstack/react-query'
+import { ScriptureFormSchema } from './ScriptureSelect/ScriptureSelect'
+import { AddressFormSchema } from './AddressForm'
 
 const paymentElementOptions = {
     layout: 'tabs',
@@ -19,8 +22,28 @@ export default function CheckoutForm({
 }: {
     navigationButtonProps: MultistepNavigationButtonsProps
 }) {
+    const [selectedScripture] = useSessionStorage<ScriptureFormSchema>(
+        SessionKeys['selectScriptureForm'],
+        {} as any
+    )
+    const [recipientAddressForm] = useSessionStorage<AddressFormSchema>(
+        SessionKeys['recipientAddressForm'],
+        {} as any
+    )
     const stripe = useStripe()
     const elements = useElements()
+
+    const getAddressMutation = useMutation({
+        mutationFn: () => {
+            return client.models.Address.list({
+                filter: {
+                    inProgress: {
+                        eq: true,
+                    },
+                },
+            })
+        },
+    })
 
     const [message, setMessage] = useState<string>()
     const [error, setError] = useState<string>()
@@ -56,6 +79,16 @@ export default function CheckoutForm({
             .catch((error) => setError(error.message))
 
         if (!clientSecret) return
+
+        // Save current address to db where it will be used in our webhook
+        const getLatestAddress = await getAddressMutation.mutateAsync()
+        // If there is a current address lets update that one.
+        if (getLatestAddress.data?.length) {
+            await client.models.Address.update({
+                id: getLatestAddress.data[0].id,
+                inProgress: true,
+            })
+        }
 
         const { error } = await stripe.confirmPayment({
             elements,

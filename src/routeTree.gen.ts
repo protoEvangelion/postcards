@@ -15,6 +15,7 @@ import { Route as SeedImport } from './routes/seed'
 import { Route as LoginImport } from './routes/login'
 import { Route as AppImport } from './routes/app'
 import { Route as IndexImport } from './routes/index'
+import { Route as AppPaymentsImport } from './routes/app.payments'
 import { Route as AppHomeImport } from './routes/app.home'
 import { Route as AppCreateImport } from './routes/app.create'
 
@@ -38,6 +39,11 @@ const AppRoute = AppImport.update({
 const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AppPaymentsRoute = AppPaymentsImport.update({
+  path: '/payments',
+  getParentRoute: () => AppRoute,
 } as any)
 
 const AppHomeRoute = AppHomeImport.update({
@@ -78,6 +84,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppHomeImport
       parentRoute: typeof AppImport
     }
+    '/app/payments': {
+      preLoaderRoute: typeof AppPaymentsImport
+      parentRoute: typeof AppImport
+    }
   }
 }
 
@@ -85,7 +95,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
-  AppRoute.addChildren([AppCreateRoute, AppHomeRoute]),
+  AppRoute.addChildren([AppCreateRoute, AppHomeRoute, AppPaymentsRoute]),
   LoginRoute,
   SeedRoute,
 ])
